@@ -7,8 +7,6 @@ class World {
     ];
     clouds = [
         new Cloud(),
-        new Cloud(),
-        new Cloud(),
     ];
     backgroundObjects = [
         new BackgroundObject('img/5_background/layers/air.png'),
@@ -50,4 +48,5 @@ class World {
     addToMap(mo) {
         this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height)
     }
+    
 }
