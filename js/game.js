@@ -1,17 +1,19 @@
 let canvas;
 let world;
+let keyboard = new Keyboard(); 
 
 function init() {
     canvas = document.getElementById("canvas");
-    world = new World(canvas);
+    world = new World(canvas, keyboard);
     console.log('My Character is', world.character);
 }
 
-window.addEventListener('keydown', function(event) {
-    if (event.key === 'ArrowRight') {
-        world.character.moveRight();
-    }
-    if (event.key === 'ArrowLeft') {
-        world.character.moveLeft();
-    }
+window.addEventListener('keydown', (event) => {
+    let key = event.code.toLocaleUpperCase();
+    keyboard[key] = true;
+});
+
+window.addEventListener('keyup', (event) => {
+    let key = event.code.toLocaleUpperCase();
+    keyboard[key] = false;
 });
