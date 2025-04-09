@@ -27,8 +27,12 @@ class MovableObject {
         })
     }
 
-    moveRight() {
-        
+    playAnimation(images) {
+        let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 6; => 0, Rest 0 => speichert immer nur den Rest 
+                // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, ...
+                let path = images[i];
+                this.img = this.imageCache[path];
+                this.currentImage++;
     }
 
     moveLeft() {

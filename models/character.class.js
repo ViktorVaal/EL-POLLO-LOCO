@@ -24,7 +24,7 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.world.keyboard.ARROWRIGHT) {
+            if (this.world.keyboard.ARROWRIGHT && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.otherDirection = false;
             }
@@ -39,11 +39,7 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT) {
                 // Walk animation
-                let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 6; => 0, Rest 0 => speichert immer nur den Rest 
-                // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, ...
-                let path = this.IMAGES_WALKING[i];
-                this.img = this.imageCache[path];
-                this.currentImage++;
+                this.playAnimation(this.IMAGES_WALKING);
             }
         }, 50);
 
