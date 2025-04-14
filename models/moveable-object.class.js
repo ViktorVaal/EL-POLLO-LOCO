@@ -10,6 +10,7 @@ class MovableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
+    energy = 100;
     offset = {
         top: 0,
         left: 0,
@@ -81,7 +82,7 @@ class MovableObject {
     }
 
     playAnimation(images) {
-        let i = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 6; => 0, Rest 0 => speichert immer nur den Rest 
+        let i = this.currentImage % images.length; // let i = 0 % 6; => 0, Rest 0 => speichert immer nur den Rest 
         // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, ...
         let path = images[i];
         this.img = this.imageCache[path];

@@ -30,12 +30,18 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-38.png',
         'img/2_character_pepe/3_jump/J-39.png'
     ];
+    IMAGES_HURT = [
+        'img/2_character_pepe/4_hurt/H-41.png',
+        'img/2_character_pepe/4_hurt/H-42.png',
+        'img/2_character_pepe/4_hurt/H-43.png'
+    ];
     world;
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_HURT);
         this.applyGravity();
         this.animate();
     }
@@ -50,7 +56,7 @@ class Character extends MovableObject {
                 this.moveLeft();
                 this.otherDirection = true;
             }
-            
+
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
             }
@@ -58,15 +64,14 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-
             if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+            } else if (this.world.level.enemies.some(enemy => this.isColliding(enemy))) {
+                this.playAnimation(this.IMAGES_HURT)
+            } else if (this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
             } else {
-
-                if (this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT) {
-                    // Walk animation
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
+                
             }
         }, 50);
     }

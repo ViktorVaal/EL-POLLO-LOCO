@@ -23,17 +23,18 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    console.log('Collition with Character ', enemy);
+                    this.character.energy -= 5;
+                    console.log('Collition with Character, energy= ', this.character.energy);
                 }
             });
             this.level.salsaBottle.forEach((salsaBottle) => {
                 if (this.character.isColliding(salsaBottle)) {
-                    console.log('Collition with Character ', salsaBottle);
+                    // console.log('Collition with Character ', salsaBottle);
                 };
             });
             this.level.coins.forEach((coin) => {
                 if (this.character.isColliding(coin)) {
-                    console.log('Collition with Character ', coin);
+                    // console.log('Collition with Character ', coin);
                 };
             })
         }, 200);
