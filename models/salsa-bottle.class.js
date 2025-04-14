@@ -1,6 +1,12 @@
 class SalsaBottle extends MovableObject {
 
     height = 80;
+    offset = {
+        top: 10,
+        left: 30,
+        right: 20,
+        bottom: 10
+    }
 
     IMAGES_WALKING = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',

@@ -12,12 +12,32 @@ class World {
         this.keyboard = keyboard
         this.draw();
         this.setWorld();
+        this.checkCollitions();
     }
 
     setWorld() {
         this.character.world = this;
     }
 
+    checkCollitions() {
+        setInterval(() => {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
+                    console.log('Collition with Character ', enemy);
+                }
+            });
+            this.level.salsaBottle.forEach((salsaBottle) => {
+                if (this.character.isColliding(salsaBottle)) {
+                    console.log('Collition with Character ', salsaBottle);
+                };
+            });
+            this.level.coins.forEach((coin) => {
+                if (this.character.isColliding(coin)) {
+                    console.log('Collition with Character ', coin);
+                };
+            })
+        }, 200);
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -54,6 +74,7 @@ class World {
 
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
+        mo.drawOffsetFrame(this.ctx)
 
         if (mo.otherDirection) {
             this.flipImageBack(mo)
