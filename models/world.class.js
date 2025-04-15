@@ -1,5 +1,8 @@
 class World {
     character = new Character();
+    statusBar = new Statusbar();
+    statusBarCoin = new StatusBarCoin();
+    statusBarBottle = new StatusBarBottle();
     level = level1;
     canvas;
     keyboard;
@@ -17,26 +20,32 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.statusBar.world = this;
     }
 
     checkCollitions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    this.character.energy -= 5;
-                    console.log('Collition with Character, energy= ', this.character.energy);
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy)
                 }
             });
-            this.level.salsaBottle.forEach((salsaBottle) => {
+            for (let i = this.level.salsaBottle.length - 1; i >= 0; i--) {
+                let salsaBottle = this.level.salsaBottle[i];
                 if (this.character.isColliding(salsaBottle)) {
-                    // console.log('Collition with Character ', salsaBottle);
-                };
-            });
-            this.level.coins.forEach((coin) => {
+                    this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle += 10);
+                    this.level.salsaBottle.splice(i, 1);
+                }
+            };
+            
+            for (let i = this.level.coins.length - 1; i >= 0; i--) {
+                let coin = this.level.coins[i];
                 if (this.character.isColliding(coin)) {
-                    // console.log('Collition with Character ', coin);
-                };
-            })
+                    this.statusBarCoin.setPercentage(this.statusBarCoin.percentageCoin += 10);
+                    this.level.coins.splice(i, 1);
+                }
+            };
         }, 200);
     }
 
@@ -44,13 +53,21 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
-
         this.addObjectsToMap(this.level.backgroundObjects);
+        
+        this.ctx.translate(-this.camera_x, 0);
+        // ------ Space for fixed objects ----------
+        this.addToMap(this.statusBar);
+        this.addToMap(this.statusBarCoin);
+        this.addToMap(this.statusBarBottle);
+        this.ctx.translate(this.camera_x, 0); 
+
         this.addObjectsToMap(this.level.clouds);
-        this.addToMap(this.character)
+        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.salsaBottle);
+        
 
         this.ctx.translate(-this.camera_x, 0);
 
