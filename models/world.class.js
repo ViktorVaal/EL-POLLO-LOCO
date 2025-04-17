@@ -43,12 +43,15 @@ class World {
         for (let i = this.level.enemies.length - 1; i >= 0; i--) {
             let enemy = this.level.enemies[i];
             if (this.character.isAttacking(enemy)) {
-                console.log("character is attacking");
-                this.level.enemies.splice(i, 1);
+                enemy.energy = 0;
+                enemy.speed = 0;
+                setTimeout(() => {
+                    this.level.enemies.splice(i, 1);
+                }, 1000);
             }
         };
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && enemy.speed > 0) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy)
             }
