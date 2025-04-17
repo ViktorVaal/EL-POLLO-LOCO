@@ -39,7 +39,6 @@ class MovableObject extends DrawableObjects {
 
     hit() {
         this.energy -= 5;
-        console.log(this.percentage);
         if (this.energy < 0) {
             this.energy = 0;
         } else {

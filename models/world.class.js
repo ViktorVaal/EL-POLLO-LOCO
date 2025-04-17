@@ -35,7 +35,7 @@ class World {
         if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0) {
             let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
             this.throwableObjects.push(bottle);
-            this.statusBarBottle.percentageBottle -= 10;
+            this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);   
         }
     }
 
@@ -105,7 +105,6 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
         mo.drawOffsetFrame(this.ctx)
 
         if (mo.otherDirection) {
