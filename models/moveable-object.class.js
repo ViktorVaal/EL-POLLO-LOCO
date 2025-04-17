@@ -1,4 +1,4 @@
-class MovableObject extends DrawableObjects{
+class MovableObject extends DrawableObjects {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -22,15 +22,19 @@ class MovableObject extends DrawableObjects{
     }
 
     isAboveGround() {
-        return this.y < 180;
+        if (this instanceof ThrowableObject) {  // THrowableObjects should allways fall
+            return true;
+        } else {
+            return this.y < 180;
+        }
     }
 
     // character.isColliding(chicken);
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-        this.y + this.offset.top + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-        this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-        this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+            this.y + this.offset.top + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
     hit() {

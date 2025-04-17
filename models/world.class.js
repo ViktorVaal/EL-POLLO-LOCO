@@ -3,6 +3,7 @@ class World {
     statusBar = new Statusbar();
     statusBarCoin = new StatusBarCoin();
     statusBarBottle = new StatusBarBottle();
+    throwableObjects = [];
     level = level1;
     canvas;
     keyboard;
@@ -15,7 +16,7 @@ class World {
         this.keyboard = keyboard
         this.draw();
         this.setWorld();
-        this.checkCollitions();
+        this.run();
     }
 
     setWorld() {
@@ -23,30 +24,42 @@ class World {
         this.statusBar.world = this;
     }
 
-    checkCollitions() {
+    run() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy)
-                }
-            });
-            for (let i = this.level.salsaBottle.length - 1; i >= 0; i--) {
-                let salsaBottle = this.level.salsaBottle[i];
-                if (this.character.isColliding(salsaBottle)) {
-                    this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle += 10);
-                    this.level.salsaBottle.splice(i, 1);
-                }
-            };
-            
-            for (let i = this.level.coins.length - 1; i >= 0; i--) {
-                let coin = this.level.coins[i];
-                if (this.character.isColliding(coin)) {
-                    this.statusBarCoin.setPercentage(this.statusBarCoin.percentageCoin += 10);
-                    this.level.coins.splice(i, 1);
-                }
-            };
-        }, 200);
+            this.checkCollisions();
+            this.checkThrowObject();
+        }, 50);
+    }
+
+    checkThrowObject() {
+        if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0) {
+            let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
+            this.throwableObjects.push(bottle);
+            this.statusBarBottle.percentageBottle -= 10;
+        }
+    }
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.statusBar.setPercentage(this.character.energy)
+            }
+        });
+        for (let i = this.level.salsaBottle.length - 1; i >= 0; i--) {
+            let salsaBottle = this.level.salsaBottle[i];
+            if (this.character.isColliding(salsaBottle)) {
+                this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle += 10);
+                this.level.salsaBottle.splice(i, 1);
+            }
+        };
+        for (let i = this.level.coins.length - 1; i >= 0; i--) {
+            let coin = this.level.coins[i];
+            if (this.character.isColliding(coin)) {
+                this.statusBarCoin.setPercentage(this.statusBarCoin.percentageCoin += 10);
+                this.level.coins.splice(i, 1);
+            }
+        };
     }
 
     draw() {
@@ -54,20 +67,21 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-        
+
         this.ctx.translate(-this.camera_x, 0);
         // ------ Space for fixed objects ----------
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
-        this.ctx.translate(this.camera_x, 0); 
+        this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.salsaBottle);
-        
+        this.addObjectsToMap(this.throwableObjects);
+
 
         this.ctx.translate(-this.camera_x, 0);
 

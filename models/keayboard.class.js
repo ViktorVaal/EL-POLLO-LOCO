@@ -4,4 +4,5 @@ class Keyboard {
     ARROWUP = false;
     ARROWDOWN = false;
     SPACE = false;
+    KEYD = false;
 }
