@@ -45,9 +45,10 @@ class World {
             if (this.character.isAttacking(enemy)) {
                 enemy.energy = 0;
                 enemy.speed = 0;
+                enemy.y = 360;
                 setTimeout(() => {
                     this.level.enemies.splice(i, 1);
-                }, 1000);
+                }, 1500);
             }
         };
         this.level.enemies.forEach((enemy) => {
@@ -115,8 +116,8 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx)
-        mo.drawOffsetFrame(this.ctx)
+        // mo.drawFrame(this.ctx)
+        // mo.drawOffsetFrame(this.ctx)
 
         if (mo.otherDirection) {
             this.flipImageBack(mo)
