@@ -28,7 +28,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObject();
-        }, 50);
+        }, 20);
     }
 
     checkThrowObject() {
@@ -40,6 +40,13 @@ class World {
     }
 
     checkCollisions() {
+        for (let i = this.level.enemies.length - 1; i >= 0; i--) {
+            let enemy = this.level.enemies[i];
+            if (this.character.isAttacking(enemy)) {
+                console.log("character is attacking");
+                this.level.enemies.splice(i, 1);
+            }
+        };
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
@@ -105,6 +112,7 @@ class World {
         }
 
         mo.draw(this.ctx);
+        mo.drawFrame(this.ctx)
         mo.drawOffsetFrame(this.ctx)
 
         if (mo.otherDirection) {

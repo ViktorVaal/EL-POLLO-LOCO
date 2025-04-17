@@ -20,6 +20,33 @@ body {
 }
 
 canvas {
+    /* display: none; */
     background-color: black;
     border: 5px solid black;
+}
+
+.start-game {
+    cursor: pointer;
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.start-game:hover {
+    scale: 1.1;
+}
+
+.play-btn {
+    border-radius: 50%;
+    border: 5px solid orange;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.play-btn img {
+    height: 60px;
 }
