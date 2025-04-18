@@ -26,6 +26,7 @@ class World {
 
     run() {
         setInterval(() => {
+            this.checkCharacterIsAttacking();
             this.checkCollisions();
             this.checkThrowObject();
         }, 20);
@@ -40,19 +41,9 @@ class World {
     }
 
     checkCollisions() {
-        for (let i = this.level.enemies.length - 1; i >= 0; i--) {
-            let enemy = this.level.enemies[i];
-            if (this.character.isAttacking(enemy)) {
-                enemy.energy = 0;
-                enemy.speed = 0;
-                enemy.y = 360;
-                setTimeout(() => {
-                    this.level.enemies.splice(i, 1);
-                }, 1500);
-            }
-        };
+        
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && enemy.speed > 0) {
+            if (this.character.isColliding(enemy) && enemy.energy > 0) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy)
             }
@@ -71,6 +62,28 @@ class World {
                 this.level.coins.splice(i, 1);
             }
         };
+    }
+
+    checkCharacterIsAttacking() {
+        for (let i = this.level.enemies.length - 1; i >= 0; i--) {
+            let enemy = this.level.enemies[i];
+            if (this.character.isAttacking(enemy)) {
+                enemy.energy = 0;
+                setTimeout(() => {
+                    this.level.enemies.splice(i, 1);
+                }, 1500);
+            }
+        };
+        for (let i = this.throwableObjects.length - 1; i >= 0; i--) {
+            let throwableObject = this.throwableObjects[i];
+            let endboss = this.level.enemies[this.level.enemies.length - 1];
+            if (throwableObject.isColliding(endboss)) {
+                console.log(endboss.energy);
+                endboss.energy -= 20;
+                this.throwableObjects.splice(i, 1);
+            }
+        };
+        
     }
 
     draw() {
@@ -116,8 +129,8 @@ class World {
         }
 
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx)
-        // mo.drawOffsetFrame(this.ctx)
+        mo.drawFrame(this.ctx)
+        mo.drawOffsetFrame(this.ctx)
 
         if (mo.otherDirection) {
             this.flipImageBack(mo)
