@@ -80,7 +80,7 @@ class World {
         for (let i = this.throwableObjects.length - 1; i >= 0; i--) {
             let throwableObject = this.throwableObjects[i];
             let endboss = this.level.enemies[this.level.enemies.length - 1];
-            if (throwableObject.isColliding(endboss)) {
+            if (throwableObject.isColliding(endboss) || throwableObject.hitsTheGround()) {
                 endboss.hitEndboss(throwableObject);
                 throwableObject.energy = 0;
                 setTimeout(() => {

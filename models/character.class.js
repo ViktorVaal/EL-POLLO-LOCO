@@ -73,34 +73,37 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.world.keyboard.ARROWRIGHT && this.x < this.world.level.level_end_x) {
+            if (this.world.keyboard.ARROWRIGHT && this.x < this.world.level.level_end_x && this.energy > 0) {
                 this.moveRight();
             }
 
-            if (this.world.keyboard.ARROWLEFT && this.x > 0) {
+            if (this.world.keyboard.ARROWLEFT && this.x > 0 && this.energy > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
             }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            if (this.world.keyboard.SPACE && !this.isAboveGround() && this.energy > 0) {
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead()) {
+            if (this.isDead() && this.imageIndex <= 6) {
+                this.currentImage = this.imageIndex;
                 this.playAnimation(this.IMAGES_DEAD);
-            } else if (this.isAboveGround()) {
+                this.imageIndex++
+            } else if (this.isAboveGround() && this.energy > 0) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.isHurt()) {
+            } else if (this.isHurt() && this.energy > 0) {
                 // this.world.level.enemies.some(enemy => this.isColliding(enemy))
                 this.playAnimation(this.IMAGES_HURT)
-            } else if (this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT) {
+            } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT && this.energy > 0) {
                 this.playAnimation(this.IMAGES_WALKING);
-            } else {
+            } else if (this.energy > 0) {
                 this.playAnimation(this.IMAGES_IDLE);
-            }
+            } 
+            
         }, 100);
     }
 }

@@ -6,6 +6,7 @@ class DrawableObjects {
     img;
     imageCache = {};
     currentImage = 0;
+    imageIndex = 0;
     percentage = 100;
     percentageCoin = 0;
     percentageBottle = 0;

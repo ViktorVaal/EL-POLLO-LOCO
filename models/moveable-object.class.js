@@ -22,7 +22,7 @@ class MovableObject extends DrawableObjects {
     }
 
     isAboveGround() {
-        if (this instanceof ThrowableObject) {  // THrowableObjects should allways fall
+        if (this instanceof ThrowableObject && this.y < 330) {  // THrowableObjects should allways fall
             return true;
         } else {
             return this.y < 180;
@@ -74,6 +74,10 @@ class MovableObject extends DrawableObjects {
 
     isDead() {
         return this.energy == 0;
+    }
+
+    hitsTheGround() {
+        return this.y > 330;
     }
 
     playAnimation(images) {

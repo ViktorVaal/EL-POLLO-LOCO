@@ -47,14 +47,17 @@ class ThrowableObject extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (this.energy <= 0) {
-                this.speedX = 6;
-                this.speedY = -1;
+            console.log(this.y);
+            if (this.energy <= 0 && this.imageIndex <= 6 || this.hitsTheGround() && this.imageIndex <= 6) {
+                this.currentImage = this.imageIndex;
+                this.speedX = 0;
+                this.speedY = 0;
                 this.playAnimation(this.IMAGES_SPLASH)
-            }
+                this.imageIndex++;
+            } 
         }, 200);
         setInterval(() => {
-            if (this.energy > 0) {
+            if (this.speedX > 0 && this.energy > 0) {
                 this.playAnimation(this.IMAGES_ROTATION);
             }
         }, 70);
