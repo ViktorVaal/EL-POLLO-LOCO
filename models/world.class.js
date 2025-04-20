@@ -70,10 +70,13 @@ class World {
             if (this.character.isAttacking(chicken)) {
                 chicken.energy = 0;
                 setTimeout(() => {
-                    this.level.enemies.splice(i, 1);
+                    let index = this.level.enemies.indexOf(chicken);
+                    if (index > -1) {
+                        this.level.enemies.splice(index, 1);
+                    }
                 }, 1500);
             }
-        };
+        }
         for (let i = this.throwableObjects.length - 1; i >= 0; i--) {
             let throwableObject = this.throwableObjects[i];
             let endboss = this.level.enemies[this.level.enemies.length - 1];
@@ -81,11 +84,13 @@ class World {
                 endboss.hitEndboss(throwableObject);
                 throwableObject.energy = 0;
                 setTimeout(() => {
-                    this.throwableObjects.splice(i, 1);
+                    let index = this.throwableObjects.indexOf(throwableObject);
+                    if (index > -1) {
+                        this.throwableObjects.splice(index, 1);
+                    }
                 }, 1000);
-
             }
-        };
+        }
         
     }
 
