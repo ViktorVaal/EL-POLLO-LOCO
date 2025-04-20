@@ -33,11 +33,12 @@ class World {
     }
 
     checkThrowObject() {
-        if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0) {
-            let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
-            this.throwableObjects.push(bottle);
-            this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);   
-        }
+            if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0) {
+                let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
+                this.throwableObjects.push(bottle);
+                this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);
+                this.keyboard.KEYD = false;   
+            }
     }
 
     checkCollisions() {
@@ -78,9 +79,9 @@ class World {
             let throwableObject = this.throwableObjects[i];
             let endboss = this.level.enemies[this.level.enemies.length - 1];
             if (throwableObject.isColliding(endboss)) {
-                console.log(endboss.energy);
                 endboss.energy -= 20;
                 this.throwableObjects.splice(i, 1);
+
             }
         };
         
@@ -129,8 +130,8 @@ class World {
         }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx)
-        mo.drawOffsetFrame(this.ctx)
+        // mo.drawFrame(this.ctx)
+        // mo.drawOffsetFrame(this.ctx)
 
         if (mo.otherDirection) {
             this.flipImageBack(mo)

@@ -20,6 +20,9 @@ function startGame() {
 window.addEventListener('keydown', (event) => {
     let key = event.code.toLocaleUpperCase();
     keyboard[key] = true;
+    if (event.repeat && key == "KEYD") {
+        keyboard[key] = false;        
+    }
 });
 
 window.addEventListener('keyup', (event) => {
