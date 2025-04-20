@@ -42,7 +42,6 @@ class World {
     }
 
     checkCollisions() {
-        
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && enemy.energy > 0) {
                 this.character.hit();
@@ -67,9 +66,9 @@ class World {
 
     checkCharacterIsAttacking() {
         for (let i = this.level.enemies.length - 1; i >= 0; i--) {
-            let enemy = this.level.enemies[i];
-            if (this.character.isAttacking(enemy)) {
-                enemy.energy = 0;
+            let chicken = this.level.enemies[i];
+            if (this.character.isAttacking(chicken)) {
+                chicken.energy = 0;
                 setTimeout(() => {
                     this.level.enemies.splice(i, 1);
                 }, 1500);
@@ -79,8 +78,11 @@ class World {
             let throwableObject = this.throwableObjects[i];
             let endboss = this.level.enemies[this.level.enemies.length - 1];
             if (throwableObject.isColliding(endboss)) {
-                endboss.energy -= 20;
-                this.throwableObjects.splice(i, 1);
+                endboss.hitEndboss(throwableObject);
+                throwableObject.energy = 0;
+                setTimeout(() => {
+                    this.throwableObjects.splice(i, 1);
+                }, 1000);
 
             }
         };
