@@ -33,7 +33,7 @@ class World {
     }
 
     checkThrowObject() {
-            if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0) {
+            if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0 && this.character.energy > 0) {
                 let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
                 this.throwableObjects.push(bottle);
                 this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);
