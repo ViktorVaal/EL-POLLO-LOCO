@@ -2,16 +2,10 @@ let canvas;
 let world;
 let keyboard = new Keyboard(); 
 
-function init() {
+function startGame() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
     console.log('My Character is', world.character);
-}
-
-function startGame() {
-    // canvas = document.getElementById("canvas");
-    // world = new World(canvas, keyboard);
-    // console.log('My Character is', world.character);
     let startGame = document.getElementById("startGame")
     canvas.style.display = "block"
     startGame.style.display = "none"

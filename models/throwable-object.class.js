@@ -47,7 +47,6 @@ class ThrowableObject extends MovableObject {
 
     animate() {
         setInterval(() => {
-            console.log(this.y);
             if (this.energy <= 0 && this.imageIndex <= 6 || this.hitsTheGround() && this.imageIndex <= 6) {
                 this.currentImage = this.imageIndex;
                 this.speedX = 0;

@@ -9,7 +9,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url("./img/skull.png");
+    background-image: url("./img/desert.png");
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -20,7 +20,7 @@ body {
 }
 
 canvas {
-    /* display: none; */
+    display: none;
     background-color: black;
     border: 5px solid black;
 }
