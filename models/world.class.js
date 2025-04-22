@@ -1,4 +1,5 @@
 class World {
+    intervalId = []
     character = new Character();
     statusBar = new Statusbar();
     statusBarCoin = new StatusBarCoin();
@@ -22,10 +23,15 @@ class World {
     setWorld() {
         this.character.world = this;
         this.statusBar.world = this;
+        this.level.enemies[14].world = this;
+    }
+
+    destroy() {
+        clearInterval(this.intervalId); 
     }
 
     run() {
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             this.checkCharacterIsAttacking();
             this.checkEndbossIsAttacking();
             this.checkCollisions();

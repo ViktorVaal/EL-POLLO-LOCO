@@ -1,14 +1,18 @@
 class Endboss extends MovableObject {
 
-    height = 500;
+    speed = 0.9;
+    height = 400;
     width = 300;
-    y = -35;
+    y = 42;
+    lastAttack = 0;
     offset = {
         top: 80,
         left: 60,
         right: 50,
         bottom: 20
     }
+    world;
+    hadFirstContact = false;
     IMAGES_WALK = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -48,15 +52,26 @@ class Endboss extends MovableObject {
 
     constructor() {
         super().loadImage(this.IMAGES_ALERT[0]);
+        this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_ATTACK);
-        this.x = 1800;
+        this.x = 2400;
         this.animate();
     }
 
     animate() {
+        let i = 0;
+        setInterval(() => {
+            if (this.hadFirstContact && i > 8 && this.world.character.x < this.x + this.width / 2) {
+                this.moveLeft();
+                this.otherDirection = false;
+            } else if (this.hadFirstContact && i > 8 ) {
+                this.moveRight();
+                this.otherDirection = true;
+            }
+        }, 1000 / 60);
         setInterval(() => {
             if (this.isHurt()) {
                 // this.world.level.enemies.some(enemy => this.isColliding(enemy))
@@ -65,14 +80,22 @@ class Endboss extends MovableObject {
                 this.currentImage = this.imageIndex;
                 this.playAnimation(this.IMAGES_DEAD);
                 this.imageIndex++
-                this.y = 20;
+                this.y = 50;
                 this.speed = 0;
-            } else if (this.isAttacking() && this.energy > 0) {
+            } else if (this.endbossAttacks() && this.energy > 0) {
                 this.playAnimation(this.IMAGES_ATTACK);
-            } else if (this.energy > 0) {
+            } else if (i < 8) {
                 this.playAnimation(this.IMAGES_ALERT);
-            } 
-        }, 150);
+            } else if (this.energy > 0){
+                this.playAnimation(this.IMAGES_WALK)
+            }
+            i++
+            
+            if (this.world?.character.x > 1400 && !this.hadFirstContact) {
+                i = 0;
+                this.hadFirstContact = true;
+            }
+        }, 100);
     }
 
 }

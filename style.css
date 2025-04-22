@@ -1,7 +1,11 @@
 @font-face {
     font-family: 'zabars';
     src: url(./fonts/Zabars.ttf);
-  }
+}
+
+* {
+    margin: 0;
+}
 
 body {
     margin: 0;
@@ -9,7 +13,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url("./img/desert.png");
+    background-image: url("./img/desert.jpeg");
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -25,11 +29,24 @@ canvas {
     border: 5px solid black;
 }
 
-.start-game {
-    cursor: pointer;
-    width: 400px;
+.menu {
+    background-image: url(./img/9_intro_outro_screens/start/startscreen_1.png);
+    background-size: cover;
+    background-position: center;
+    width: 720px;
+    height: 480px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    color: rgb(250, 162, 0);
+}
+
+.start-game {
+    height: 30%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
@@ -37,16 +54,30 @@ canvas {
     scale: 1.1;
 }
 
-.play-btn {
-    border-radius: 50%;
-    border: 5px solid orange;
-    height: 80px;
-    width: 80px;
+.controls {
+    cursor: default;
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    margin-bottom: 8px;
+}
+
+.you-won {
+    display: none;
+    flex-direction: column;
     align-items: center;
 }
 
-.play-btn img {
-    height: 60px;
+.you-lose {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.restart-game {
+    cursor: pointer;
+}
+
+.restart-game:hover {
+    scale: 1.1;
 }

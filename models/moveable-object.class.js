@@ -5,7 +5,6 @@ class MovableObject extends DrawableObjects {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
-    lastAttack = 0;
     offset = {
         top: 0,
         left: 0,
@@ -43,7 +42,7 @@ class MovableObject extends DrawableObjects {
             this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-            this.y + this.height - this.offset.bottom < mo.y + mo.offset.top + 15 &&
+            this.y + this.height - this.offset.bottom < mo.y + mo.offset.top + 40 &&
             this.y + this.offset.top < mo.y;
     }
 
@@ -61,7 +60,9 @@ class MovableObject extends DrawableObjects {
             this.energy -= 20;
             if (this.energy < 0) {
                 this.energy = 0;
-            } 
+            } else {
+                this.lastHit = new Date().getTime();
+            }
         }
     }
 
@@ -75,10 +76,10 @@ class MovableObject extends DrawableObjects {
         this.lastAttack = new Date().getTime();
     }
 
-    isAttacking() {
-        let timepassed = new Date().getTime() - this.lastAttack;  // difference in ms
-        timepassed = timepassed / 1000; // difference in s
-        return timepassed < 1;
+    endbossAttacks() {
+        let timepassedAttack = new Date().getTime() - this.lastAttack;  // difference in ms
+        timepassedAttack = timepassedAttack / 1000; // difference in s
+        return timepassedAttack < 1;
     }
 
     isDead() {
