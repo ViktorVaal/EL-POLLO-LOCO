@@ -13,7 +13,10 @@ class Character extends MovableObject {
         bottom: 10
     }
     jumpAudio = new Audio('audio/jump.mp3');
-    
+    coinRecievedAudio = new Audio('audio/coin-recieved.mp3');
+    dieAudio = new Audio('audio/die.mp3');
+
+
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -104,6 +107,7 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.isDead() && this.imageIndex <= 6) {
+                this.dieAudio.play();
                 this.currentImage = this.imageIndex;
                 this.playAnimation(this.IMAGES_DEAD);
                 this.imageIndex++
@@ -121,7 +125,7 @@ class Character extends MovableObject {
                 this.idleIndex++
             } else if (this.energy > 0 && this.idleIndex > 50) {
                     this.playAnimation(this.IMAGES_LONG_IDLE);
-            }
+            } 
         }, 150);
     }
 }

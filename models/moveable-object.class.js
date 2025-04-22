@@ -11,6 +11,7 @@ class MovableObject extends DrawableObjects {
         right: 0,
         bottom: 0
     }
+    chickenHurtAudio = new Audio('audio/chicken_hurt.mp3');
 
     applyGravity() {
         setInterval(() => {

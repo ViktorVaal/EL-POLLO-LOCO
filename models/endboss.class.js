@@ -11,6 +11,9 @@ class Endboss extends MovableObject {
         right: 50,
         bottom: 20
     }
+    angryEndbossAudio = new Audio('audio/endboss_angry.mp3');
+    endbossDiesAudio = new Audio('audio/endboss_dies.mp3')
+   
     world;
     hadFirstContact = false;
     IMAGES_WALK = [
@@ -77,6 +80,7 @@ class Endboss extends MovableObject {
                 // this.world.level.enemies.some(enemy => this.isColliding(enemy))
                 this.playAnimation(this.IMAGES_HURT)
             } else if (this.isDead() && this.imageIndex <= 2) {
+                this.endbossDiesAudio.play();
                 this.currentImage = this.imageIndex;
                 this.playAnimation(this.IMAGES_DEAD);
                 this.imageIndex++
@@ -84,18 +88,19 @@ class Endboss extends MovableObject {
                 this.speed = 0;
             } else if (this.endbossAttacks() && this.energy > 0) {
                 this.playAnimation(this.IMAGES_ATTACK);
-            } else if (i < 8) {
+            } else if (this.world?.character.x > 2000 && i < 8) {
+                this.angryEndbossAudio.play();
                 this.playAnimation(this.IMAGES_ALERT);
             } else if (this.energy > 0){
                 this.playAnimation(this.IMAGES_WALK)
             }
             i++
             
-            if (this.world?.character.x > 1400 && !this.hadFirstContact) {
+            if (this.world?.character.x > 2000 && !this.hadFirstContact) {
                 i = 0;
                 this.hadFirstContact = true;
             }
-        }, 100);
+        }, 200);
     }
 
 }

@@ -1,5 +1,4 @@
 class World {
-    intervalId = []
     character = new Character();
     statusBar = new Statusbar();
     statusBarCoin = new StatusBarCoin();
@@ -10,7 +9,8 @@ class World {
     keyboard;
     camera_x = 0;
     ctx;
-
+    throwAudio = new Audio('audio/throw.mp3');
+   
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -43,6 +43,7 @@ class World {
             if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0 && this.character.energy > 0) {
                 let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
                 this.throwableObjects.push(bottle);
+                this.throwAudio.play();
                 this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);
                 this.keyboard.KEYD = false;   
             }
@@ -65,6 +66,7 @@ class World {
         for (let i = this.level.coins.length - 1; i >= 0; i--) {
             let coin = this.level.coins[i];
             if (this.character.isColliding(coin)) {
+                this.character.coinRecievedAudio.play();
                 this.statusBarCoin.setPercentage(this.statusBarCoin.percentageCoin += 10);
                 this.level.coins.splice(i, 1);
             }
@@ -75,7 +77,11 @@ class World {
         for (let i = this.level.enemies.length - 1; i >= 0; i--) {
             let chicken = this.level.enemies[i];
             if (this.character.isAttacking(chicken)) {
+                if (chicken.energy > 0) {
+                    this.character.speedY = 20;
+                }
                 chicken.energy = 0;
+                chicken.chickenHurtAudio.play();
                 setTimeout(() => {
                     let index = this.level.enemies.indexOf(chicken);
                     if (index > -1) {
@@ -87,15 +93,12 @@ class World {
         for (let i = this.throwableObjects.length - 1; i >= 0; i--) {
             let throwableObject = this.throwableObjects[i];
             let endboss = this.level.enemies[this.level.enemies.length - 1];
-            if (throwableObject.isColliding(endboss) || throwableObject.hitsTheGround()) {
+            if (throwableObject.isColliding(endboss)) {
                 endboss.hitEndboss(throwableObject);
-                throwableObject.energy = 0;
-                setTimeout(() => {
-                    let index = this.throwableObjects.indexOf(throwableObject);
-                    if (index > -1) {
-                        this.throwableObjects.splice(index, 1);
-                    }
-                }, 1000);
+                endboss.chickenHurtAudio.play();
+                this.smashBottle(throwableObject);
+            } else if (throwableObject.hitsTheGround()) {
+                this.smashBottle(throwableObject);
             }
         }
     }
@@ -105,6 +108,16 @@ class World {
         if (endboss.isColliding(this.character)) {
             endboss.isAttackingCharacter();
         } 
+    }
+
+    smashBottle(throwableObject){
+        throwableObject.energy = 0;
+                setTimeout(() => {
+                    let index = this.throwableObjects.indexOf(throwableObject);
+                    if (index > -1) {
+                        this.throwableObjects.splice(index, 1);
+                    }
+                }, 1000);
     }
 
     draw() {
