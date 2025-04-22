@@ -21,7 +21,8 @@ class ThrowableObject extends MovableObject {
         bottom: 10
     }
     speedX = 20;
-
+    bottleShatterIndex = 0;
+    bottleShatterAudio = new Audio('audio/bottle_shatter.mp3');
 
 
     constructor(x, y) {
@@ -34,6 +35,7 @@ class ThrowableObject extends MovableObject {
         this.width = 100;
         this.throw();
         this.animate();
+        this.playAudio();
     }
 
 
@@ -60,6 +62,15 @@ class ThrowableObject extends MovableObject {
                 this.playAnimation(this.IMAGES_ROTATION);
             }
         }, 70);
+    }
+
+    playAudio() {
+        setInterval(() => {
+            if (this.energy == 0 && this.bottleShatterIndex == 0) {
+                this.bottleShatterAudio.play()
+                this.bottleShatterIndex ++
+            }
+      }, 100);  
     }
 
 }

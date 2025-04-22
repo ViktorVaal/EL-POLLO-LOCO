@@ -5,6 +5,7 @@
 
 * {
     margin: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -28,6 +29,7 @@ canvas {
     background-color: black;
     border: 5px solid black;
 }
+
 
 .menu {
     background-image: url(./img/9_intro_outro_screens/start/startscreen_1.png);
@@ -68,6 +70,11 @@ canvas {
     align-items: center;
 }
 
+img {
+    width: 100%;
+    height: 100%;
+}
+
 .you-lose {
     display: none;
     flex-direction: column;
@@ -80,4 +87,33 @@ canvas {
 
 .restart-game:hover {
     scale: 1.1;
+}
+
+@media (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+    
+    .menu {
+        width: 100%;
+    }
+}
+
+@media (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+
+    h1 {
+        display: none;
+    }
+
+    .menu {
+        height: 100vh;
+    }
+
+    .you-won img {
+        height: 80vh;
+    }
+    
 }
