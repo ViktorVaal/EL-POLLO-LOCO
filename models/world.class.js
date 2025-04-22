@@ -27,6 +27,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkCharacterIsAttacking();
+            this.checkEndbossIsAttacking();
             this.checkCollisions();
             this.checkThrowObject();
         }, 20);
@@ -91,7 +92,13 @@ class World {
                 }, 1000);
             }
         }
-        
+    }
+
+    checkEndbossIsAttacking() {
+        let endboss = this.level.enemies[this.level.enemies.length - 1];
+        if (endboss.isColliding(this.character)) {
+            endboss.isAttackingCharacter();
+        } 
     }
 
     draw() {
