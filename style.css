@@ -52,6 +52,27 @@ canvas {
     align-items: center;
 }
 
+.rotate-device {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    background-color: rgb(163, 119, 38);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+}
+
+.rotate-device img {
+    height: 80px;
+    width: 80px;
+}
+
 .start-game:hover {
     scale: 1.1;
 }

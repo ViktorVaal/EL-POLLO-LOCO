@@ -7,6 +7,17 @@ let gameOverCheck;
 let youWinAudio = new Audio('audio/you_win.mp3');
 let youLoseAudio = new Audio('audio/you_lose.mp3');
 
+function checkifMobile() {
+    let width = innerWidth;
+    let height = innerHeight;
+    let rotateDeviceRef = document.getElementById("rotateDevice");
+    if (height > width && width <= 768) {
+        rotateDeviceRef.style.display = "flex"
+    } else {
+        rotateDeviceRef.style.display = "none"
+    }
+}
+
 function startGame() {
     menu = document.getElementById("menu")
     canvas = document.getElementById("canvas");
