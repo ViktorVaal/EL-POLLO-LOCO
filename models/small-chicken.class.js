@@ -20,6 +20,7 @@ class SmallChicken extends MovableObject {
         this.x = 400 + Math.random() * 2000;
         this.speed = 0.3 + Math.random() * 0.3;
         this.animate();
+        this.playAudio();
     }
 
     animate() {
@@ -35,5 +36,14 @@ class SmallChicken extends MovableObject {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 100);
+    }
+
+    playAudio(){
+        setInterval(() => {
+            if (this.energy == 0 && this.chickenDiesIndex == 0) {
+                this.chickenHurtAudio.play();
+                this.chickenDiesIndex++
+            }
+        }, 50);
     }
 }  

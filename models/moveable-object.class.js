@@ -5,6 +5,8 @@ class MovableObject extends DrawableObjects {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    chickenDiesIndex = 0;
+    hadFirstContact = false;
     offset = {
         top: 0,
         left: 0,

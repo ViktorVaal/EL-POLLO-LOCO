@@ -3,6 +3,7 @@ class Chicken extends MovableObject {
     width = 80;
     y = 340;
     energy = 10;
+    
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
@@ -20,6 +21,7 @@ class Chicken extends MovableObject {
         this.x = 400 + Math.random() * 2000;
         this.speed = 0.3 + Math.random() * 0.3;
         this.animate();
+        this. playAudio();
     }
 
     animate() {
@@ -35,5 +37,14 @@ class Chicken extends MovableObject {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 100);
+    }
+
+    playAudio(){
+        setInterval(() => {
+            if (this.energy == 0 && this.chickenDiesIndex == 0) {
+                this.chickenHurtAudio.play();
+                this.chickenDiesIndex++
+            }
+        }, 50);
     }
 }  

@@ -4,8 +4,8 @@ let menu;
 let intervsalIds = [];
 let keyboard = new Keyboard();
 let gameOverCheck;
-let playMusik;
-let backgroundMusik = new Audio("audio/backgroundMusik.mp3");
+let youWinAudio = new Audio('audio/you_win.mp3');
+let youLoseAudio = new Audio('audio/you_lose.mp3');
 
 function startGame() {
     menu = document.getElementById("menu")
@@ -19,8 +19,50 @@ function init() {
     console.log('My Character is', world.character);
     canvas.style.display = "block"
     menu.style.display = "none"
-    backgroundMusik.play();
     checkGameOverLoop();
+}
+
+function restartGame() {
+    world.destroy();
+    clearInterval(gameOverCheck);
+    document.getElementById("youWon").style.display = "none";
+    document.getElementById("youLose").style.display = "none";
+    initLevel();
+    init();
+}
+
+function checkGameOverLoop() {
+    gameOverCheck = setInterval(() => {
+        if (world?.level.enemies[world.level.enemies.length - 1].energy == 0) {
+            clearInterval(gameOverCheck);
+            setTimeout(() => {
+                playAudio(true);
+                world.destroy();
+                canvas.style.display = "none";
+                document.getElementById("youWon").style.display = "flex";
+            }, 1500);
+        } else if (world?.character.energy == 0) {
+            clearInterval(gameOverCheck);
+            setTimeout(() => {
+                playAudio(false);
+                world.destroy();
+                canvas.style.display = "none";
+                document.getElementById("youLose").style.display = "flex";
+            }, 1500);
+        }
+    }, 20);
+}
+
+function playAudio(victory) {
+    if (victory) {
+        world.endBattleAudio.pause();
+        youWinAudio.play();
+        
+    } else {
+        world.endBattleAudio.pause();
+        world.backgroundMusik.pause();
+        youLoseAudio.play();
+    }
 }
 
 window.addEventListener('keydown', (event) => {
@@ -35,38 +77,4 @@ window.addEventListener('keyup', (event) => {
     let key = event.code.toLocaleUpperCase();
     keyboard[key] = false;
 });
-
-function restartGame() {
-    world.destroy();
-    clearInterval(gameOverCheck);
-    clearInterval(playMusik);
-    document.getElementById("youWon").style.display = "none";
-    document.getElementById("youLose").style.display = "none";
-    initLevel();
-    init();
-}
-
-
-
-function checkGameOverLoop() {
-    gameOverCheck = setInterval(() => {
-        if (world?.level.enemies[world.level.enemies.length - 1].energy == 0) {
-            clearInterval(gameOverCheck); // Stoppe die Schleife!
-            backgroundMusik.pause();
-            setTimeout(() => {
-                world.destroy();
-                canvas.style.display = "none";
-                document.getElementById("youWon").style.display = "flex";
-            }, 1500);
-        } else if (world?.character.energy == 0) {
-            clearInterval(gameOverCheck); // Stoppe die Schleife!
-            backgroundMusik.pause();
-            setTimeout(() => {
-                world.destroy();
-                canvas.style.display = "none";
-                document.getElementById("youLose").style.display = "flex";
-            }, 1500);
-        }
-    }, 20);
-}
 

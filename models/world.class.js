@@ -10,6 +10,9 @@ class World {
     camera_x = 0;
     ctx;
     throwAudio = new Audio('audio/throw.mp3');
+    backgroundMusik = new Audio("audio/backgroundMusik.mp3");
+    endBattleAudio = new Audio('audio/endboss_fight.mp3');
+
    
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -18,6 +21,19 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.playAudio();
+    }
+
+    playAudio() {
+        this.backgroundMusik.play();
+        setInterval(() => {
+            if (this.character.x > 1799 && !this.level.enemies[this.level.enemies.length - 1].hadFirstContact) {
+                this.backgroundMusik.pause();
+                setTimeout(() => {
+                    this.endBattleAudio.play(); 
+                }, 1000);
+            }
+        }, 100);
     }
 
     setWorld() {
@@ -81,7 +97,6 @@ class World {
                     this.character.speedY = 20;
                 }
                 chicken.energy = 0;
-                chicken.chickenHurtAudio.play();
                 setTimeout(() => {
                     let index = this.level.enemies.indexOf(chicken);
                     if (index > -1) {
@@ -95,7 +110,6 @@ class World {
             let endboss = this.level.enemies[this.level.enemies.length - 1];
             if (throwableObject.isColliding(endboss)) {
                 endboss.hitEndboss(throwableObject);
-                endboss.chickenHurtAudio.play();
                 this.smashBottle(throwableObject);
             } else if (throwableObject.hitsTheGround()) {
                 this.smashBottle(throwableObject);

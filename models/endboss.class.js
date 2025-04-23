@@ -12,10 +12,10 @@ class Endboss extends MovableObject {
         bottom: 20
     }
     angryEndbossAudio = new Audio('audio/endboss_angry.mp3');
-    endbossDiesAudio = new Audio('audio/endboss_dies.mp3')
-   
+    endbossDiesAudio = new Audio('audio/endboss_dies.mp3');
+    endbossAttackAudio = new Audio('audio/endboss_attack.mp3')
     world;
-    hadFirstContact = false;
+    
     IMAGES_WALK = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -60,7 +60,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_ATTACK);
-        this.x = 2400;
+        this.x = 2200;
         this.animate();
     }
 
@@ -78,7 +78,8 @@ class Endboss extends MovableObject {
         setInterval(() => {
             if (this.isHurt()) {
                 // this.world.level.enemies.some(enemy => this.isColliding(enemy))
-                this.playAnimation(this.IMAGES_HURT)
+                this.playAnimation(this.IMAGES_HURT);
+                this.chickenHurtAudio.play();
             } else if (this.isDead() && this.imageIndex <= 2) {
                 this.endbossDiesAudio.play();
                 this.currentImage = this.imageIndex;
@@ -88,15 +89,17 @@ class Endboss extends MovableObject {
                 this.speed = 0;
             } else if (this.endbossAttacks() && this.energy > 0) {
                 this.playAnimation(this.IMAGES_ATTACK);
+                this.endbossAttackAudio.play();
             } else if (this.world?.character.x > 1800 && i < 10) {
                 this.angryEndbossAudio.play();
                 this.playAnimation(this.IMAGES_ALERT);
             } else if (this.energy > 0){
                 this.playAnimation(this.IMAGES_WALK)
             }
+
             i++
-            
-            if (this.world?.character.x > 2000 && !this.hadFirstContact) {
+
+            if (this.world?.character.x > 1800 && !this.hadFirstContact) {
                 i = 0;
                 this.hadFirstContact = true;
             }
