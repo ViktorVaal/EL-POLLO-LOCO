@@ -5,16 +5,17 @@ class World {
     statusBarCoin = new StatusBarCoin();
     statusBarBottle = new StatusBarBottle();
     statusBarEndboss = new StatusBarEndboss();
-    throwableObjects = [];
+    backgroundMusik = new Audio("audio/backgroundMusik.mp3");
+    endBattleAudio = new Audio('audio/endboss_fight.mp3');
     level = level1;
+    throwableObjects = [];
     canvas;
     keyboard;
+    isDestroyed = false;
     muted = false;
     camera_x = 0;
     ctx;
-    backgroundMusik = new Audio("audio/backgroundMusik.mp3");
-    endBattleAudio = new Audio('audio/endboss_fight.mp3');
-
+    
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -24,15 +25,16 @@ class World {
         this.setWorld();
         this.run();
     }
-
+    
     playMusik() {
-        this.checkmusikMuted(this.backgroundMusik);
+        let loopIndex = 0;
         setInterval(() => {
-            if (this.level.enemies[this.level.enemies.length - 1].hadFirstContact) {
-                this.backgroundMusik.pause();
+            if (this.level.enemies[this.level.enemies.length - 1].hadFirstContact && loopIndex == 0) {
+                backgroundMusik.pause();
                 setTimeout(() => {
                     this.checkmusikMuted(this.endBattleAudio);
                 }, 1000);
+                loopIndex++
             }
         }, 100);
     }
@@ -67,6 +69,7 @@ class World {
 
     destroy() {
         clearInterval(this.intervalId);
+        this.isDestroyed = true;
     }
 
     run() {
@@ -163,6 +166,7 @@ class World {
     }
 
     draw() {
+        if (this.isDestroyed) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);

@@ -5,8 +5,11 @@ let gameHud;
 let intervsalIds = [];
 let keyboard = new Keyboard();
 let gameOverCheck;
+let volumeUp;
+let volumeOff;
 let youWinAudio = new Audio('audio/you_win.mp3');
 let youLoseAudio = new Audio('audio/you_lose.mp3');
+backgroundMusik = new Audio("audio/backgroundMusik.mp3");
 
 function checkifMobile() {
     let width = innerWidth;
@@ -23,6 +26,7 @@ function startGame() {
     menu = document.getElementById("menu")
     canvas = document.getElementById("canvas");
     gameHud = document.getElementById("gameHud");
+    backgroundMusik.play();
     initLevel();
     init();
 }
@@ -33,6 +37,7 @@ function init() {
     gameHud.style.display = "block"
     menu.style.display = "none"
     checkGameOverLoop();
+    checkVolume();
 }
 
 function restartGame() {
@@ -78,8 +83,8 @@ function playAudio(victory) {
 }
 
 function toggleVolume() {
-    let volumeUp = document.getElementById("volumeUp");
-    let volumeOff = document.getElementById("volumeOff");
+    volumeUp = document.getElementById("volumeUp");
+    volumeOff = document.getElementById("volumeOff");
     if (volumeUp.style.display == "block") {
         volumeOff.style.display = "block";
         volumeUp.style.display = "none";
@@ -91,6 +96,15 @@ function toggleVolume() {
         world.playMusik(); 
     }
 }
+
+function checkVolume() {
+    volumeUp = document.getElementById("volumeUp");
+    volumeOff = document.getElementById("volumeOff");
+    if (volumeOff.style.display == "block") {
+        world.muted = true;
+    }
+}
+
 
 window.addEventListener('keydown', (event) => {
     let key = event.code.toLocaleUpperCase();
