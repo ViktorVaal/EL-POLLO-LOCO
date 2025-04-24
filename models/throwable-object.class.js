@@ -22,7 +22,9 @@ class ThrowableObject extends MovableObject {
     }
     speedX = 20;
     bottleShatterIndex = 0;
+    direction = "right";
     bottleShatterAudio = new Audio('audio/bottle_shatter.mp3');
+    throwAudio = new Audio('audio/throw.mp3');
 
 
     constructor(x, y) {
@@ -33,9 +35,10 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.height = 100;
         this.width = 100;
-        this.throw();
+        this.throw(this.direction);
         this.animate();
         this.playAudio();
+       
     }
 
 
@@ -43,7 +46,11 @@ class ThrowableObject extends MovableObject {
         this.speedY = 30;
         this.applyGravity();
         setInterval(() => {
-            this.x += this.speedX;
+            if (this.direction == "right") {
+                this.x += this.speedX;
+            } else if (this.direction == "left") {
+                this.x -= this.speedX;
+            }
         }, 25);
     }
 
@@ -65,6 +72,7 @@ class ThrowableObject extends MovableObject {
     }
 
     playAudio() {
+        this.throwAudio.play();
         setInterval(() => {
             if (this.energy == 0 && this.bottleShatterIndex == 0) {
                 this.bottleShatterAudio.play()

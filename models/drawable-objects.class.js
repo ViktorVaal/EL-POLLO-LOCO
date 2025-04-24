@@ -11,9 +11,9 @@ class DrawableObjects {
     percentageCoin = 0;
     percentageBottle = 0;
 
-    
-     // loadImage('img/test.png');
-     loadImage(path) {
+
+    // loadImage('img/test.png');
+    loadImage(path) {
         this.img = new Image(); // this.img = document.getElementById('image') <img id="image" src>
         this.img.src = path;
     }
@@ -22,11 +22,11 @@ class DrawableObjects {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-     /**
-     * 
-     * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...]
-     */
-     loadImages(arr) {
+    /**
+    * 
+    * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...]
+    */
+    loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
             img.src = path;
@@ -54,11 +54,11 @@ class DrawableObjects {
         }
     }
 
-     playAnimation(images) {
+    playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 0 % 6; => 0, Rest 0 => speichert immer nur den Rest 
         // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, ...
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-    }  
+    }
 }

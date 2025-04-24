@@ -1,15 +1,15 @@
-class StatusBarBottle extends DrawableObjects {
-    x = 30;
-    y = 80;
+class StatusBarEndboss extends DrawableObjects {
+    x = 500;
+    y = 10;
     height = 50;
     width = 200;
     IMAGES = [
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/40.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/60.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/80.png',
-        'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png',
+        'img/7_statusbars/2_statusbar_endboss/orange/orange0.png',
+        'img/7_statusbars/2_statusbar_endboss/orange/orange20.png',
+        'img/7_statusbars/2_statusbar_endboss/orange/orange40.png',
+        'img/7_statusbars/2_statusbar_endboss/orange/orange60.png',
+        'img/7_statusbars/2_statusbar_endboss/orange/orange80.png',
+        'img/7_statusbars/2_statusbar_endboss/orange/orange100.png',
 
     ];
     world;
@@ -18,7 +18,7 @@ class StatusBarBottle extends DrawableObjects {
     constructor() {
         super();
         this.loadImages(this.IMAGES);
-        this.setPercentage(0);
+        this.setPercentage(100);
     }
 
     setPercentage(percentage) {

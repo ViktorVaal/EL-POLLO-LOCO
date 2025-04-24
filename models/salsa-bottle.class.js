@@ -7,6 +7,8 @@ class SalsaBottle extends MovableObject {
         right: 20,
         bottom: 10
     }
+    collectBottleAudio = new Audio('audio/collect_bottle.mp3');
+
 
     IMAGES_WALKING = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',

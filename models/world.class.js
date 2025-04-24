@@ -3,16 +3,15 @@ class World {
     statusBar = new Statusbar();
     statusBarCoin = new StatusBarCoin();
     statusBarBottle = new StatusBarBottle();
+    statusBarEndboss = new StatusBarEndboss();
     throwableObjects = [];
     level = level1;
     canvas;
     keyboard;
     camera_x = 0;
     ctx;
-    throwAudio = new Audio('audio/throw.mp3');
     backgroundMusik = new Audio("audio/backgroundMusik.mp3");
     endBattleAudio = new Audio('audio/endboss_fight.mp3');
-
    
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -27,7 +26,7 @@ class World {
     playAudio() {
         this.backgroundMusik.play();
         setInterval(() => {
-            if (this.character.x > 1799 && !this.level.enemies[this.level.enemies.length - 1].hadFirstContact) {
+            if (this.character.x > 1750 && !this.level.enemies[this.level.enemies.length - 1].hadFirstContact) {
                 this.backgroundMusik.pause();
                 setTimeout(() => {
                     this.endBattleAudio.play(); 
@@ -38,7 +37,6 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.statusBar.world = this;
         this.level.enemies[14].world = this;
     }
 
@@ -58,8 +56,11 @@ class World {
     checkThrowObject() {
             if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0 && this.character.energy > 0) {
                 let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
+                if (this.character.otherDirection == true) {
+                    bottle.direction = "left";
+                    console.log( bottle.otherDirection);
+                }
                 this.throwableObjects.push(bottle);
-                this.throwAudio.play();
                 this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);
                 this.keyboard.KEYD = false;   
             }
@@ -74,7 +75,8 @@ class World {
         });
         for (let i = this.level.salsaBottle.length - 1; i >= 0; i--) {
             let salsaBottle = this.level.salsaBottle[i];
-            if (this.character.isColliding(salsaBottle)) {
+            if (this.character.isColliding(salsaBottle) &&  this.statusBarBottle.percentage < 100) {
+                salsaBottle.collectBottleAudio.play();
                 this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle += 10);
                 this.level.salsaBottle.splice(i, 1);
             }
@@ -82,7 +84,7 @@ class World {
         for (let i = this.level.coins.length - 1; i >= 0; i--) {
             let coin = this.level.coins[i];
             if (this.character.isColliding(coin)) {
-                this.character.coinRecievedAudio.play();
+                coin.coinRecievedAudio.play();
                 this.statusBarCoin.setPercentage(this.statusBarCoin.percentageCoin += 10);
                 this.level.coins.splice(i, 1);
             }
@@ -110,6 +112,7 @@ class World {
             let endboss = this.level.enemies[this.level.enemies.length - 1];
             if (throwableObject.isColliding(endboss)) {
                 endboss.hitEndboss(throwableObject);
+                this.statusBarEndboss.setPercentage(endboss.energy)
                 this.smashBottle(throwableObject);
             } else if (throwableObject.hitsTheGround()) {
                 this.smashBottle(throwableObject);
@@ -145,6 +148,7 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
+        this.addToMap(this.statusBarEndboss);
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.clouds);

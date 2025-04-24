@@ -13,9 +13,8 @@ class Character extends MovableObject {
         bottom: 10
     }
     jumpAudio = new Audio('audio/jump.mp3');
-    coinRecievedAudio = new Audio('audio/coin-recieved.mp3');
     dieAudio = new Audio('audio/die.mp3');
-
+    characterHurtAudio = new Audio('audio/character_hurt.mp3');
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -116,7 +115,8 @@ class Character extends MovableObject {
                 this.idleIndex = 0;
             } else if (this.isHurt() && this.energy > 0) {
                 // this.world.level.enemies.some(enemy => this.isColliding(enemy))
-                this.playAnimation(this.IMAGES_HURT)
+                this.playAnimation(this.IMAGES_HURT);
+                this.characterHurtAudio.play();
             } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT && this.energy > 0) {
                 this.playAnimation(this.IMAGES_WALKING);
                 this.idleIndex = 0;

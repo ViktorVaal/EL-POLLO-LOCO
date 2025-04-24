@@ -22,7 +22,11 @@ function initLevel() {
     ],
 
     [
-        new Cloud()
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
     ],
 
     [
@@ -64,6 +68,10 @@ function initLevel() {
         new Coin(),
     ],
     [
+        new SalsaBottle(),
+        new SalsaBottle(),
+        new SalsaBottle(),
+        new SalsaBottle(),
         new SalsaBottle(),
         new SalsaBottle(),
         new SalsaBottle(),
