@@ -18,7 +18,7 @@ class Chicken extends MovableObject {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = 400 + Math.random() * 2000;
+        this.x = 400 + Math.random() * 3500;
         this.speed = 0.3 + Math.random() * 0.3;
         this.animate();
         this. playAudio();
@@ -42,7 +42,7 @@ class Chicken extends MovableObject {
     playAudio(){
         setInterval(() => {
             if (this.energy == 0 && this.chickenDiesIndex == 0) {
-                this.chickenHurtAudio.play();
+                this.world.playAudio(this.chickenHurtAudio);
                 this.chickenDiesIndex++
             }
         }, 50);

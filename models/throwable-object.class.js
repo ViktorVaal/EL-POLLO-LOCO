@@ -72,10 +72,10 @@ class ThrowableObject extends MovableObject {
     }
 
     playAudio() {
-        this.throwAudio.play();
+        world.playAudio(this.throwAudio);
         setInterval(() => {
             if (this.energy == 0 && this.bottleShatterIndex == 0) {
-                this.bottleShatterAudio.play()
+                world.playAudio(this.bottleShatterAudio);
                 this.bottleShatterIndex ++
             }
       }, 100);  

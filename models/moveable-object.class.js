@@ -7,6 +7,7 @@ class MovableObject extends DrawableObjects {
     lastHit = 0;
     chickenDiesIndex = 0;
     hadFirstContact = false;
+    world;
     offset = {
         top: 0,
         left: 0,
@@ -112,6 +113,6 @@ class MovableObject extends DrawableObjects {
 
     jump() {
         this.speedY = 30;
-        this.jumpAudio.play();
+        this.world.playAudio(this.jumpAudio);
     }
 }

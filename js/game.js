@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let menu;
+let gameHud;
 let intervsalIds = [];
 let keyboard = new Keyboard();
 let gameOverCheck;
@@ -21,6 +22,7 @@ function checkifMobile() {
 function startGame() {
     menu = document.getElementById("menu")
     canvas = document.getElementById("canvas");
+    gameHud = document.getElementById("gameHud");
     initLevel();
     init();
 }
@@ -28,7 +30,7 @@ function startGame() {
 function init() {
     world = new World(canvas, keyboard);
     console.log('My Character is', world.character);
-    canvas.style.display = "block"
+    gameHud.style.display = "block"
     menu.style.display = "none"
     checkGameOverLoop();
 }
@@ -49,7 +51,7 @@ function checkGameOverLoop() {
             setTimeout(() => {
                 playAudio(true);
                 world.destroy();
-                canvas.style.display = "none";
+                gameHud.style.display = "none";
                 document.getElementById("youWon").style.display = "flex";
             }, 1500);
         } else if (world?.character.energy == 0) {
@@ -57,7 +59,7 @@ function checkGameOverLoop() {
             setTimeout(() => {
                 playAudio(false);
                 world.destroy();
-                canvas.style.display = "none";
+                gameHud.style.display = "none";
                 document.getElementById("youLose").style.display = "flex";
             }, 1500);
         }
@@ -67,12 +69,26 @@ function checkGameOverLoop() {
 function playAudio(victory) {
     if (victory) {
         world.endBattleAudio.pause();
-        youWinAudio.play();
-        
+        world.playAudio(youWinAudio);
     } else {
         world.endBattleAudio.pause();
         world.backgroundMusik.pause();
-        youLoseAudio.play();
+        world.playAudio(youLoseAudio);
+    }
+}
+
+function toggleVolume() {
+    let volumeUp = document.getElementById("volumeUp");
+    let volumeOff = document.getElementById("volumeOff");
+    if (volumeUp.style.display == "block") {
+        volumeOff.style.display = "block";
+        volumeUp.style.display = "none";
+        world.muted = true;
+    } else {
+        volumeOff.style.display = "none";
+        volumeUp.style.display = "block";
+        world.muted = false;
+        world.playMusik(); 
     }
 }
 

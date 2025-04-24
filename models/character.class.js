@@ -106,7 +106,7 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.isDead() && this.imageIndex <= 6) {
-                this.dieAudio.play();
+                this.world.playAudio(this.dieAudio);
                 this.currentImage = this.imageIndex;
                 this.playAnimation(this.IMAGES_DEAD);
                 this.imageIndex++
@@ -116,7 +116,7 @@ class Character extends MovableObject {
             } else if (this.isHurt() && this.energy > 0) {
                 // this.world.level.enemies.some(enemy => this.isColliding(enemy))
                 this.playAnimation(this.IMAGES_HURT);
-                this.characterHurtAudio.play();
+                this.world.playAudio(this.characterHurtAudio);
             } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT && this.energy > 0) {
                 this.playAnimation(this.IMAGES_WALKING);
                 this.idleIndex = 0;

@@ -60,7 +60,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_ATTACK);
-        this.x = 2200;
+        this.x = 4200;
         this.animate();
     }
 
@@ -79,9 +79,9 @@ class Endboss extends MovableObject {
             if (this.isHurt()) {
                 // this.world.level.enemies.some(enemy => this.isColliding(enemy))
                 this.playAnimation(this.IMAGES_HURT);
-                this.chickenHurtAudio.play();
+                this.world.playAudio(this.chickenHurtAudio);
             } else if (this.isDead() && this.imageIndex <= 2) {
-                this.endbossDiesAudio.play();
+                this.world.playAudio(this.endbossDiesAudio);
                 this.currentImage = this.imageIndex;
                 this.playAnimation(this.IMAGES_DEAD);
                 this.imageIndex++
@@ -89,17 +89,17 @@ class Endboss extends MovableObject {
                 this.speed = 0;
             } else if (this.endbossAttacks() && this.energy > 0) {
                 this.playAnimation(this.IMAGES_ATTACK);
-                this.endbossAttackAudio.play();
-            } else if (this.world?.character.x > 1800 && i < 10) {
-                this.angryEndbossAudio.play();
+                this.world.playAudio(this.endbossAttackAudio);
+            } else if (this.world?.character.x > 3700 && i < 10) {
+                this.world.playAudio(this.angryEndbossAudio);
                 this.playAnimation(this.IMAGES_ALERT);
-            } else if (this.energy > 0){
+            } else if (this.energy > 0 && this.hadFirstContact){
                 this.playAnimation(this.IMAGES_WALK)
             }
 
             i++
 
-            if (this.world?.character.x > 1800 && !this.hadFirstContact) {
+            if (this.world?.character.x > 3700 && !this.hadFirstContact) {
                 i = 0;
                 this.hadFirstContact = true;
             }

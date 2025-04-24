@@ -52,10 +52,16 @@
         <h2 class="restart-game" onclick="restartGame()">Restart Game</h2>
     </div>
     
-
+<div id="gameHud" class="game-hud">
     <canvas id="canvas" width="720px" height="480px">
-
+       
     </canvas>
+    <div onclick="toggleVolume()" class="volume">
+        <img id="volumeUp" src="./img/volume_up.png" alt="">
+        <img id="volumeOff" src="./img/volume_off.png" alt="">
+    </div>
+</div>
+    
 
     <div class="rotate-device" id="rotateDevice">
         <h2>Plaese rotate your device</h2>

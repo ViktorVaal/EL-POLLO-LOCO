@@ -1,4 +1,5 @@
 class World {
+    intervalId = [];
     character = new Character();
     statusBar = new Statusbar();
     statusBarCoin = new StatusBarCoin();
@@ -8,40 +9,64 @@ class World {
     level = level1;
     canvas;
     keyboard;
+    muted = false;
     camera_x = 0;
     ctx;
     backgroundMusik = new Audio("audio/backgroundMusik.mp3");
     endBattleAudio = new Audio('audio/endboss_fight.mp3');
-   
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard
+        this.playMusik();
         this.draw();
         this.setWorld();
         this.run();
-        this.playAudio();
     }
 
-    playAudio() {
-        this.backgroundMusik.play();
+    playMusik() {
+        this.checkmusikMuted(this.backgroundMusik);
         setInterval(() => {
-            if (this.character.x > 1750 && !this.level.enemies[this.level.enemies.length - 1].hadFirstContact) {
+            if (this.level.enemies[this.level.enemies.length - 1].hadFirstContact) {
                 this.backgroundMusik.pause();
                 setTimeout(() => {
-                    this.endBattleAudio.play(); 
+                    this.checkmusikMuted(this.endBattleAudio);
                 }, 1000);
             }
         }, 100);
     }
 
+    checkmusikMuted(audio) {
+        setInterval(() => {
+            if (this.muted) {
+                audio.pause();
+            }
+        }, 100);
+        if (!this.muted) {
+            audio.play();
+        }
+        
+    }
+
+    playAudio(audio) {
+        if (this.muted) {
+            audio.pause();
+            return;
+        } else {
+            audio.play();
+        }
+    }
+
     setWorld() {
         this.character.world = this;
-        this.level.enemies[14].world = this;
+        this.level.enemies.forEach((enemy) => {
+            enemy.world = this;
+        })
     }
 
     destroy() {
-        clearInterval(this.intervalId); 
+        clearInterval(this.intervalId);
     }
 
     run() {
@@ -54,16 +79,16 @@ class World {
     }
 
     checkThrowObject() {
-            if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0 && this.character.energy > 0) {
-                let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
-                if (this.character.otherDirection == true) {
-                    bottle.direction = "left";
-                    console.log( bottle.otherDirection);
-                }
-                this.throwableObjects.push(bottle);
-                this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);
-                this.keyboard.KEYD = false;   
+        if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0 && this.character.energy > 0) {
+            let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
+            if (this.character.otherDirection == true) {
+                bottle.direction = "left";
+                console.log(bottle.otherDirection);
             }
+            this.throwableObjects.push(bottle);
+            this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);
+            this.keyboard.KEYD = false;
+        }
     }
 
     checkCollisions() {
@@ -75,8 +100,8 @@ class World {
         });
         for (let i = this.level.salsaBottle.length - 1; i >= 0; i--) {
             let salsaBottle = this.level.salsaBottle[i];
-            if (this.character.isColliding(salsaBottle) &&  this.statusBarBottle.percentage < 100) {
-                salsaBottle.collectBottleAudio.play();
+            if (this.character.isColliding(salsaBottle) && this.statusBarBottle.percentage < 100) {
+                this.playAudio(salsaBottle.collectBottleAudio);
                 this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle += 10);
                 this.level.salsaBottle.splice(i, 1);
             }
@@ -84,7 +109,7 @@ class World {
         for (let i = this.level.coins.length - 1; i >= 0; i--) {
             let coin = this.level.coins[i];
             if (this.character.isColliding(coin)) {
-                coin.coinRecievedAudio.play();
+                this.playAudio(coin.coinRecievedAudio);
                 this.statusBarCoin.setPercentage(this.statusBarCoin.percentageCoin += 10);
                 this.level.coins.splice(i, 1);
             }
@@ -124,17 +149,17 @@ class World {
         let endboss = this.level.enemies[this.level.enemies.length - 1];
         if (endboss.isColliding(this.character)) {
             endboss.isAttackingCharacter();
-        } 
+        }
     }
 
-    smashBottle(throwableObject){
+    smashBottle(throwableObject) {
         throwableObject.energy = 0;
-                setTimeout(() => {
-                    let index = this.throwableObjects.indexOf(throwableObject);
-                    if (index > -1) {
-                        this.throwableObjects.splice(index, 1);
-                    }
-                }, 1000);
+        setTimeout(() => {
+            let index = this.throwableObjects.indexOf(throwableObject);
+            if (index > -1) {
+                this.throwableObjects.splice(index, 1);
+            }
+        }, 1000);
     }
 
     draw() {
