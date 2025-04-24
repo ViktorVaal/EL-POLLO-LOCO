@@ -9,6 +9,7 @@ let keyboard = new Keyboard();
 let gameOverCheck;
 let volumeUp;
 let volumeOff;
+let muted;
 let youWinAudio = new Audio('audio/you_win.mp3');
 let youLoseAudio = new Audio('audio/you_lose.mp3');
 backgroundMusik = new Audio("audio/backgroundMusik.mp3");
@@ -51,7 +52,6 @@ function init() {
     gameHud.style.display = "block"
     menu.style.display = "none"
     checkGameOverLoop();
-    checkVolume();
 }
 
 function restartGame() {
@@ -61,6 +61,7 @@ function restartGame() {
     document.getElementById("youLose").style.display = "none";
     initLevel();
     init();
+    setVolume();
 }
 
 function checkGameOverLoop() {
@@ -91,33 +92,36 @@ function playAudio(victory) {
         world.playAudio(youWinAudio);
     } else {
         world.endBattleAudio.pause();
-        world.backgroundMusik.pause();
+        backgroundMusik.pause();
         world.playAudio(youLoseAudio);
     }
 }
 
-function toggleVolume() {
+function toggleVolumeImage() {
     volumeUp = document.getElementById("volumeUp");
     volumeOff = document.getElementById("volumeOff");
-    if (volumeUp.style.display == "block") {
-        volumeOff.style.display = "block";
-        volumeUp.style.display = "none";
-        world.muted = true;
+    if (volumeUp.classList.contains("d-none")) {
+        volumeOff.classList.add("d-none");
+        volumeUp.classList.remove("d-none");
+        setVolume();
     } else {
-        volumeOff.style.display = "none";
-        volumeUp.style.display = "block";
+        volumeOff.classList.remove("d-none");
+        volumeUp.classList.add("d-none");
+        setVolume();
+    }
+}
+
+function setVolume() {
+    if (!volumeOff.classList.contains("d-none")) {
+        world.muted = true;
+        backgroundMusik.pause();
+    } else {
+        backgroundMusik.play();
         world.muted = false;
         world.playMusik();
     }
 }
 
-function checkVolume() {
-    volumeUp = document.getElementById("volumeUp");
-    volumeOff = document.getElementById("volumeOff");
-    if (volumeOff.style.display == "block") {
-        world.muted = true;
-    }
-}
 
 
 window.addEventListener('keydown', (event) => {

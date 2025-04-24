@@ -126,7 +126,7 @@ img {
     right: 40px;
 }
 
-#volumeOff {
+.d-none {
     display: none;
 }
 
