@@ -9,6 +9,7 @@
 }
 
 body {
+    -webkit-tap-highlight-color: rgba(255, 165, 0, 0.2);
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -86,14 +87,15 @@ canvas {
 }
 
 .you-won {
+    height: 100vh;
     display: none;
     flex-direction: column;
     align-items: center;
 }
 
 img {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
 }
 
 .you-lose {
@@ -102,11 +104,11 @@ img {
     align-items: center;
 }
 
-.restart-game {
+.game-over-btn {
     cursor: pointer;
 }
 
-.restart-game:hover {
+.game-over-btn:hover {
     scale: 1.1;
 }
 
@@ -134,26 +136,33 @@ img {
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding: 20px 20px;
+    padding: 0 20px 15px 20px;
     display: none;
     justify-content: space-between;
 }
 
 .mobile-btns img {
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
+    border: 3px solid orange;
+    border-radius: 50%;
 }
 
 .move-btns {
     display: flex;
     justify-content: space-between;
-    width: 20%;
+    width: 30%;
+}
+
+.move-btns img:active {
+    scale: 0.9;
+    background-color: rgba(255, 165, 0, 0.2);
 }
 
 .action-btns {
     display: flex;
     justify-content: space-between;
-    width: 20%;
+    width: 30%;
 }
 
 @media (max-width: 720px) {
@@ -180,7 +189,7 @@ img {
     }
 
     .you-won img {
-        height: 80vh;
+        height: 60%;
     }
     
 }

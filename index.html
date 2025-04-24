@@ -44,20 +44,21 @@
 
     <div class="you-won" id="youWon">
         <img src="./img/You won, you lost/You Win A.png" alt="">
-        <h2 class="restart-game" onclick="restartGame()">Restart Game</h2>
+        <h2 class="game-over-btn" onclick="restartGame()">Restart Game</h2>
+        <h2 class="game-over-btn" onclick="showHomeScreen()">Back to Start</h2>
     </div>
 
     <div class="you-lose" id="youLose">
         <img src="./img/You won, you lost/You lost b.png" alt="">
-        <h2 class="restart-game" onclick="restartGame()">Restart Game</h2>
+        <h2 class="game-over-btn" onclick="restartGame()">Restart Game</h2>
+        <h2 class="game-over-btn" onclick="showHomeScreen()">Back to Start</h2>
     </div>
     
 <div id="gameHud" class="game-hud">
     <canvas id="canvas" width="720px" height="480px">
        
     </canvas>
-
-    <div onclick="toggleVolumeImage()" class="volume">
+    <div onclick="toggleVolumeImage()" class="volume" id="volume">
         <img id="volumeUp" src="./img/volume_up.png" alt="">
         <img class="d-none" id="volumeOff" src="./img/volume_off.png" alt="">
     </div>

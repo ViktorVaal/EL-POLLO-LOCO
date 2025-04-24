@@ -13,6 +13,7 @@ let muted;
 let youWinAudio = new Audio('audio/you_win.mp3');
 let youLoseAudio = new Audio('audio/you_lose.mp3');
 backgroundMusik = new Audio("audio/backgroundMusik.mp3");
+backgroundMusik.loop = true;
 
 function checkifMobile() {
     width = innerWidth;
@@ -28,7 +29,7 @@ function checkifMobile() {
 
 function showMobileButtons() {
     let mobileBtnsRef = document.getElementById("mobileBtns");
-    if (width <= 768) {
+    if (width <= 1300) {
         mobileBtnsRef.style.display = "flex";
         activateMobileButtons();
     } else {
@@ -44,6 +45,7 @@ function startGame() {
     backgroundMusik.play();
     initLevel();
     init();
+    setVolume();
 }
 
 function init() {
@@ -59,9 +61,15 @@ function restartGame() {
     clearInterval(gameOverCheck);
     document.getElementById("youWon").style.display = "none";
     document.getElementById("youLose").style.display = "none";
-    initLevel();
-    init();
-    setVolume();
+    startGame();
+}
+
+function showHomeScreen() {
+    world.destroy();
+    clearInterval(gameOverCheck);
+    menu.style.display = "flex";
+    document.getElementById("youLose").style.display = "none";
+    document.getElementById("youWon").style.display = "none";
 }
 
 function checkGameOverLoop() {
@@ -122,8 +130,6 @@ function setVolume() {
     }
 }
 
-
-
 window.addEventListener('keydown', (event) => {
     let key = event.code.toLocaleUpperCase();
     keyboard[key] = true;
@@ -176,6 +182,11 @@ function activateMobileButtons() {
     document.getElementById('throw').addEventListener('touchend', (e) => {
         e.preventDefault();
         keyboard.KEYD = false;
+    });
+
+    document.getElementById('volume').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        toggleVolumeImage();
     });
 };
 

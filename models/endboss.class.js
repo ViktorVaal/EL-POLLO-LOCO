@@ -1,6 +1,6 @@
 class Endboss extends MovableObject {
 
-    speed = 1.5;
+    speed = 5;
     height = 400;
     width = 300;
     y = 42;
