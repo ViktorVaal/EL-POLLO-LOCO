@@ -121,7 +121,6 @@ img {
     cursor: pointer;
     height: 40px;
     width: 40px;
-    z-index: 10;
     position: absolute;
     top: 80px;
     right: 40px;
@@ -129,6 +128,32 @@ img {
 
 #volumeOff {
     display: none;
+}
+
+.mobile-btns {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mobile-btns img {
+    height: 40px;
+    width: 40px;
+}
+
+.move-btns {
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.action-btns {
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
 }
 
 @media (max-width: 720px) {
