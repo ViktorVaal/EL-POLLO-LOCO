@@ -104,9 +104,13 @@ class World {
      */
 
     destroy() {
-        clearInterval(this.intervalId);
+        this.clearAllIntervals();
         this.isDestroyed = true;
     }
+
+    clearAllIntervals() {
+        for (let i = 1; i < 9999; i++) window.clearInterval(i);
+      }
 
     /**
      * Starts the main game loop for the World instance.

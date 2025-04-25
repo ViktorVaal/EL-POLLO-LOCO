@@ -120,6 +120,8 @@ function toggleVolumeImage() {
 }
 
 function setVolume() {
+    volumeUp = document.getElementById("volumeUp");
+    volumeOff = document.getElementById("volumeOff");
     if (!volumeOff.classList.contains("d-none")) {
         world.muted = true;
         backgroundMusik.pause();
