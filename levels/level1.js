@@ -4,7 +4,19 @@ let level1;
 function initLevel() {
     level1 = new Level(
     [
-        
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
         new Chicken(),
         new Endboss()
     ],

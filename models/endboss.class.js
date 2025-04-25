@@ -102,6 +102,7 @@ class Endboss extends MovableObject {
             if (this.world?.character.x > 3700 && !this.hadFirstContact) {
                 i = 0;
                 this.hadFirstContact = true;
+                this.world.disableThrow();
             }
         }, 200);
     }

@@ -15,6 +15,7 @@ class Character extends MovableObject {
     jumpAudio = new Audio('audio/jump.mp3');
     dieAudio = new Audio('audio/die.mp3');
     characterHurtAudio = new Audio('audio/character_hurt.mp3');
+    characterSnoreAudio = new Audio('audio/male-snore.mp3');
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -91,41 +92,48 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.world.keyboard.ARROWRIGHT && this.x < this.world.level.level_end_x && this.energy > 0) {
                 this.moveRight();
+                this.characterSnoreAudio.pause();
             }
 
             if (this.world.keyboard.ARROWLEFT && this.x > 0 && this.energy > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
+                this.characterSnoreAudio.pause();
             }
 
             if (this.world.keyboard.SPACE && !this.isAboveGround() && this.energy > 0) {
                 this.jump();
+                this.characterSnoreAudio.pause();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.isDead() && this.imageIndex <= 6) {
-                this.world.playAudio(this.dieAudio);
-                this.currentImage = this.imageIndex;
-                this.playAnimation(this.IMAGES_DEAD);
-                this.imageIndex++
-            } else if (this.isAboveGround() && this.energy > 0) {
-                this.playAnimation(this.IMAGES_JUMPING);
-                this.idleIndex = 0;
-            } else if (this.isHurt() && this.energy > 0) {
-                // this.world.level.enemies.some(enemy => this.isColliding(enemy))
-                this.playAnimation(this.IMAGES_HURT);
-                this.world.playAudio(this.characterHurtAudio);
-            } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT && this.energy > 0) {
-                this.playAnimation(this.IMAGES_WALKING);
-                this.idleIndex = 0;
-            } else if (this.energy > 0 && this.idleIndex <= 50) {
-                this.playAnimation(this.IMAGES_IDLE);
-                this.idleIndex++
-            } else if (this.energy > 0 && this.idleIndex > 50) {
+            if (!this.world.isDestroyed) {
+                if (this.isDead() && this.imageIndex <= 6) {
+                    this.characterSnoreAudio.pause();
+                    this.world.playAudio(this.dieAudio);
+                    this.currentImage = this.imageIndex;
+                    this.playAnimation(this.IMAGES_DEAD);
+                    this.imageIndex++
+                } else if (this.isAboveGround() && this.energy > 0) {
+                    this.playAnimation(this.IMAGES_JUMPING);
+                    this.idleIndex = 0;
+                } else if (this.isHurt() && this.energy > 0) {
+                    this.playAnimation(this.IMAGES_HURT);
+                    this.world.playAudio(this.characterHurtAudio);
+                    this.characterSnoreAudio.pause();
+                } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT && this.energy > 0) {
+                    this.playAnimation(this.IMAGES_WALKING);
+                    this.idleIndex = 0;
+                } else if (this.energy > 0 && this.idleIndex <= 40) {
+                    this.playAnimation(this.IMAGES_IDLE);
+                    this.idleIndex++
+                } else if (this.energy > 0 && this.idleIndex > 40) {
                     this.playAnimation(this.IMAGES_LONG_IDLE);
-            } 
+                    this.world.playAudio(this.characterSnoreAudio);
+                }
+            }
         }, 150);
     }
 }

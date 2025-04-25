@@ -11,6 +11,7 @@ class World {
     throwableObjects = [];
     canvas;
     keyboard;
+    canThrow = true;
     isDestroyed = false;
     muted = false;
     camera_x = 0;
@@ -82,16 +83,22 @@ class World {
     }
 
     checkThrowObject() {
-        if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0 && this.character.energy > 0) {
+        if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0 && this.character.energy > 0 && this.canThrow == true) {
             let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
             if (this.character.otherDirection == true) {
                 bottle.direction = "left";
-                console.log(bottle.otherDirection);
             }
             this.throwableObjects.push(bottle);
             this.statusBarBottle.setPercentage(this.statusBarBottle.percentageBottle -= 10);
             this.keyboard.KEYD = false;
         }
+    }
+
+    disableThrow() {
+        this.canThrow = false;
+        setTimeout(() => {
+            this.canThrow = true;
+        }, 2500);
     }
 
     checkCollisions() {
@@ -144,8 +151,22 @@ class World {
                 this.smashBottle(throwableObject);
             } else if (throwableObject.hitsTheGround()) {
                 this.smashBottle(throwableObject);
+            } else {
+                this.level.enemies.forEach((enemy) => {
+                    if (throwableObject.isColliding(enemy) && enemy.energy > 0) {
+                        this.smashBottle(throwableObject);
+                        enemy.energy = 0;
+                        setTimeout(() => {
+                            let index = this.level.enemies.indexOf(enemy);
+                            if (index > -1) {
+                                this.level.enemies.splice(index, 1);
+                            }
+                        }, 1500);
+                    }
+                });
             }
         }
+
     }
 
     checkEndbossIsAttacking() {
@@ -157,6 +178,7 @@ class World {
 
     smashBottle(throwableObject) {
         throwableObject.energy = 0;
+        throwableObject.speedX = 0;
         setTimeout(() => {
             let index = this.throwableObjects.indexOf(throwableObject);
             if (index > -1) {
