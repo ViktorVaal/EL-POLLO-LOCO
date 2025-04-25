@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,13 +28,15 @@
     <script src="./models/world.class.js"></script>
     <script src="./js/game.js"></script>
 </head>
+
 <body onload="checkifMobile()" onresize="checkifMobile()">
-    
+
     <h1>El Pollo Loco</h1>
 
     <div class="menu" id="menu">
-        <div onclick="startGame()" class="start-game" id="startGame">
-            <h2>Start Game!!</h2>
+        <div class="start-game" id="startGame">
+            <h2 onclick="startGame()">Start Game!!</h2>
+            <a class="impressum" href="impressum.html" target="_blank">Impressum</a>
         </div>
         <div class="controls">
             <span>Throw = D</span>
@@ -53,28 +56,28 @@
         <h2 class="game-over-btn" onclick="restartGame()">Restart Game</h2>
         <h2 class="game-over-btn" onclick="showHomeScreen()">Back to Start</h2>
     </div>
-    
-<div id="gameHud" class="game-hud">
-    <canvas id="canvas" width="720px" height="480px">
-       
-    </canvas>
-    <div onclick="toggleVolumeImage()" class="volume" id="volume">
-        <img id="volumeUp" src="./img/volume_up.png" alt="">
-        <img class="d-none" id="volumeOff" src="./img/volume_off.png" alt="">
+
+    <div id="gameHud" class="game-hud">
+        <canvas id="canvas" width="720px" height="480px">
+
+        </canvas>
+        <div onclick="toggleVolumeImage()" class="volume" id="volume">
+            <img id="volumeUp" src="./img/volume_up.png" alt="">
+            <img class="d-none" id="volumeOff" src="./img/volume_off.png" alt="">
+        </div>
+
+        <div id="mobileBtns" class="mobile-btns">
+            <div class="move-btns">
+                <img id="moveLeft" src="./img/arrow_back.png" alt="">
+                <img id="moveRight" src="./img/arrow_forward.png" alt="">
+            </div>
+            <div class="action-btns">
+                <img id="jump" src="./img/arrow_upward.png" alt="">
+                <img id="throw" src="./img/bomb.png" alt="">
+            </div>
+        </div>
     </div>
 
-    <div id="mobileBtns" class="mobile-btns">
-        <div class="move-btns">
-            <img id="moveLeft" src="./img/arrow_back.png" alt="">
-            <img id="moveRight" src="./img/arrow_forward.png" alt="">
-        </div>
-        <div class="action-btns">
-            <img id="jump" src="./img/arrow_upward.png" alt="">
-            <img id="throw" src="./img/bomb.png" alt="">
-        </div>
-    </div>
-</div>
-    
 
     <div class="rotate-device" id="rotateDevice">
         <h2>Plaese rotate your device</h2>
@@ -82,4 +85,5 @@
     </div>
 
 </body>
+
 </html>

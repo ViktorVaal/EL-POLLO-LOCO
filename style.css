@@ -47,10 +47,31 @@ canvas {
 
 .start-game {
     height: 30%;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.start-game h2 {
+    cursor: pointer;
+}
+
+.start-game h2:hover {
+    scale: 1.1;
+}
+
+.impressum {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+}
+
+.impressum:hover {
+    scale: 1.1;
 }
 
 .rotate-device {
@@ -72,10 +93,6 @@ canvas {
 .rotate-device img {
     height: 80px;
     width: 80px;
-}
-
-.start-game:hover {
-    scale: 1.1;
 }
 
 .controls {
