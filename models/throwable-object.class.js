@@ -27,6 +27,13 @@ class ThrowableObject extends MovableObject {
     throwAudio = new Audio('audio/throw.mp3');
 
 
+    /**
+     * Creates a new instance of a ThrowableObject.
+     * @param {Number} x - The x position of the object.
+     * @param {Number} y - The y position of the object.
+     * @description This function also loads the images, sets the initial position, height, width and starts the animation
+     * and the audio for the object.
+     */
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_ROTATION);
@@ -42,6 +49,12 @@ class ThrowableObject extends MovableObject {
     }
 
 
+
+    /**
+     * Throws the bottle in the given direction.
+     * @param {String} direction - The direction to throw the bottle in. Can be "right" or "left".
+     * @description This function applies gravity to the object and moves it horizontally in the given direction.
+     */
     throw() {
         this.speedY = 30;
         this.applyGravity();
@@ -54,6 +67,12 @@ class ThrowableObject extends MovableObject {
         }, 25);
     }
 
+    /**
+     * Animates the object.
+     * @description This function animates the object when it is thrown and when it hits the ground.
+     * It plays the rotation animation while the object is being thrown and the splash animation when the object
+     * hits the ground. The animation is played in an interval of 200ms.
+     */
     animate() {
         setInterval(() => {
             if (this.energy <= 0 && this.imageIndex <= 6 || this.hitsTheGround() && this.imageIndex <= 6) {
@@ -71,6 +90,11 @@ class ThrowableObject extends MovableObject {
         }, 70);
     }
 
+    /**
+     * Plays the audio for the object.
+     * @description This function plays the throwing sound when the object is thrown and the shatter sound when the object hits the ground.
+     * The shatter sound is played only once, after the object hits the ground.
+     */
     playAudio() {
         world.playAudio(this.throwAudio);
         setInterval(() => {

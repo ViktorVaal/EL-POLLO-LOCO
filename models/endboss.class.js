@@ -53,6 +53,11 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
 
+    /**
+     * Constructor for Endboss class.
+     * @description Initializes the object and its properties. Loads all the images and sets the initial position.
+     *              Also starts the animation.
+     */
     constructor() {
         super().loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_WALK);
@@ -64,6 +69,15 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Animates the object.
+     * @description This function animates the object every 100ms and every 200ms. If the object is hurt, it plays the hurt animation.
+     *              If the object is dead, it plays the dead animation and plays the die sound effect.
+     *              If the object is attacking, it plays the attack animation and plays the attack sound effect.
+     *              If the character is close to the object and the object is not dead, it plays the alert animation.
+     *              If the character is farther away than 3700px and the object is not dead, it plays the walk animation.
+     *              The animation is started when the object is created.
+     */
     animate() {
         let i = 0;
         setInterval(() => {

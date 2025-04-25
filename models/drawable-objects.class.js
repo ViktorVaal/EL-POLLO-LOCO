@@ -12,20 +12,31 @@ class DrawableObjects {
     percentageBottle = 0;
 
 
-    // loadImage('img/test.png');
+    
+    /**
+     * Loads an image from the given path and assigns it to the object's img property.
+     * @param {String} path - The path to the image to load.
+     */
     loadImage(path) {
-        this.img = new Image(); // this.img = document.getElementById('image') <img id="image" src>
+        this.img = new Image(); 
         this.img.src = path;
     }
 
+    /**
+     * Draws the object on the given canvas context at the object's position
+     * and with the object's size.
+     * @param {CanvasRenderingContext2D} ctx - The canvas context to draw on.
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+  
     /**
-    * 
-    * @param {Array} arr - ['img/image1.png', 'img/image2.png', ...]
-    */
+     * Loads an array of images from the given paths and assigns them to the object's imageCache property.
+     * The imageCache is an object where the keys are the paths and the values are the images.
+     * @param {Array<String>} arr - An array of paths to the images to load.
+     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -34,6 +45,13 @@ class DrawableObjects {
         })
     }
 
+    /**
+     * Draws a blue frame around the object on the given canvas context.
+     * This is useful for debugging purposes to see the size and position of the object.
+     * The frame is only drawn if the object is an instance of one of the following classes:
+     * Character, Chicken, Endboss, ThrowableObject, or SmallChicken.
+     * @param {CanvasRenderingContext2D} ctx - The canvas context to draw on.
+     */
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof SmallChicken) {
             ctx.beginPath();
@@ -44,6 +62,13 @@ class DrawableObjects {
         }
     }
 
+    /**
+     * Draws a red frame around the object's offset area on the given canvas context.
+     * This is useful for debugging purposes to see the size and position of the object's offset area.
+     * The frame is only drawn if the object is an instance of one of the following classes:
+     * Character, Chicken, Endboss, ThrowableObject.
+     * @param {CanvasRenderingContext2D} ctx - The canvas context to draw on.
+     */
     drawOffsetFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject) {
             ctx.beginPath();
@@ -54,9 +79,15 @@ class DrawableObjects {
         }
     }
 
+    /**
+     * Plays an animation by cycling through a sequence of images.
+     * @param {Array<String>} images - An array of image paths representing the animation frames.
+     * @description This function updates the object's image to the next frame in the animation sequence
+     * using the imageCache and increments the currentImage index. The animation loops back to the start
+     * once all images have been displayed.
+     */
     playAnimation(images) {
-        let i = this.currentImage % images.length; // let i = 0 % 6; => 0, Rest 0 => speichert immer nur den Rest 
-        // i = 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, ...
+        let i = this.currentImage % images.length; 
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;

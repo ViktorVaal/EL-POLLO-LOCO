@@ -15,6 +15,11 @@ class SalsaBottle extends MovableObject {
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ]; 
 
+    /**
+     * Creates a new instance of a SalsaBottle.
+     * @description This function also loads the images, sets the initial position, height, width and starts the animation
+     * of the object.
+     */
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -24,6 +29,11 @@ class SalsaBottle extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Animates the object.
+     * @description This function animates the object by playing the walking animation.
+     * The animation is played in an interval of 600ms.
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);

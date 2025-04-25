@@ -15,18 +15,43 @@ class StatusBarEndboss extends DrawableObjects {
     world;
 
 
+    /**
+     * The constructor of the class StatusBarEndboss
+     * 
+     * The constructor calls the super class and loads the images. It also sets the percentage to 100.
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
         this.setPercentage(100);
     }
 
+
+    /**
+     * Sets the percentage of the StatusBarEndboss to a given value between 0 and 100.
+     * The percentage is used to determine the index of the image to display from the IMAGES array.
+     * The index is calculated by the resolveImageIndex method.
+     * @param {number} percentage - the percentage of the StatusBarEndboss
+     */
     setPercentage(percentage) {
         this.percentage = percentage; // => 0 .... 5
         let path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 
+
+    /**
+     * Determines the index of the image to display in the status bar
+     * based on the current percentage of the StatusBarEndboss.
+     * Returns an index corresponding to the percentage range:
+     * - 0 for 0%
+     * - 1 for >0% to 20%
+     * - 2 for >20% to 40%
+     * - 3 for >40% to 60%
+     * - 4 for >60% to 80%
+     * - 5 for >=80%
+     * @returns {number} - the index of the image to display
+     */
 
     resolveImageIndex() {
         if (this.percentage >= 80) {

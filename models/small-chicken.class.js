@@ -13,6 +13,11 @@ class SmallChicken extends MovableObject {
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
+    /**
+     * Creates a new instance of SmallChicken.
+     * @description This function loads the images, sets the initial position, height, width and starts the animation
+     * and the audio for the object.
+     */
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -23,6 +28,11 @@ class SmallChicken extends MovableObject {
         this.playAudio();
     }
 
+    /**
+     * Animates the object.
+     * @description This function animates the object every 100ms. If the object's energy is 0, it plays the dead animation.
+     * Otherwise, it plays the walking animation.
+     */
     animate() {
         setInterval(() => {
             this.moveLeft();
@@ -38,6 +48,11 @@ class SmallChicken extends MovableObject {
         }, 100);
     }
 
+    /**
+     * Plays the audio for the object.
+     * @description This function plays the dying sound when the object's energy is 0.
+     * The sound is played only once, after the object's energy has been reduced to 0.
+     */
     playAudio(){
         setInterval(() => {
             if (this.energy == 0 && this.chickenDiesIndex == 0) {

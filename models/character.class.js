@@ -76,6 +76,13 @@ class Character extends MovableObject {
     ];
     world;
 
+/**
+ * Constructor for the Character class.
+ * Initializes the character by loading images for various animations
+ * including walking, jumping, hurt, idle, long idle, and dead states.
+ * Applies gravity and starts the animation cycle.
+ */
+
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -88,6 +95,19 @@ class Character extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the animation cycle for the character.
+     * The animation is driven by events in the game world, such as the
+     * character moving left or right, jumping, or taking damage.
+     * The animation cycle responds to these events by playing the
+     * appropriate animation and updating the character's appearance.
+     * If the character is idle, the animation cycle will play the idle
+     * animation and eventually transition to the long idle animation.
+     * If the character is hurt, the animation cycle will play the hurt
+     * animation and play the hurt sound effect.
+     * If the character is dead, the animation cycle will play the dead
+     * animation and play the die sound effect.
+     */
     animate() {
         setInterval(() => {
             if (this.world.keyboard.ARROWRIGHT && this.x < this.world.level.level_end_x && this.energy > 0) {
