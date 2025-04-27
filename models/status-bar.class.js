@@ -11,9 +11,7 @@ class Statusbar extends DrawableObjects {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png'
     ];
-   
     world;
-
 
     /**
      * Constructor for the Statusbar class.
@@ -37,7 +35,6 @@ class Statusbar extends DrawableObjects {
             let path = this.IMAGES[this.resolveImageIndex()];
             this.img = this.imageCache[path];
     }
-
 
     /**
      * Returns the index of the image to display in the status bar

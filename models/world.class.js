@@ -107,6 +107,11 @@ class World {
         this.isDestroyed = true;
     }
 
+    /**
+     * Clears all intervals in the range of 1 to 9999 (the maximum
+     * number of allowed intervals) to prevent memory leaks and
+     * ensure that the game can be restarted without any issues.
+     */
     clearAllIntervals() {
         for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }

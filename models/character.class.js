@@ -36,7 +36,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-36.png',
         'img/2_character_pepe/3_jump/J-37.png',
         'img/2_character_pepe/3_jump/J-38.png',
-        'img/2_character_pepe/3_jump/J-39.png'
+        // 'img/2_character_pepe/3_jump/J-39.png'
     ];
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
@@ -84,7 +84,6 @@ class Character extends MovableObject {
  * including walking, jumping, hurt, idle, long idle, and dead states.
  * Applies gravity and starts the animation cycle.
  */
-
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -142,7 +141,7 @@ class Character extends MovableObject {
                     this.playAnimation(this.IMAGES_HURT);
                     this.world.playAudio(this.characterHurtAudio);
                     this.characterSnoreAudio.pause();
-                } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT && this.energy > 0) {
+                } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT && !this.isAboveGround() || this.world.keyboard.ARROWLEFT && this.energy > 0 && !this.isAboveGround()) {
                     this.playAnimation(this.IMAGES_WALKING);
                     this.idleIndex = 0;
                 } else if (this.energy > 0 && this.idleIndex <= 40 && !this.isAboveGround()) {
@@ -160,16 +159,14 @@ class Character extends MovableObject {
         }, 1);
 
         setInterval(() => {
-            if (this.isInTheAir && this.energy > 0 && this.jumpIndex < 7) {
+            if (this.isInTheAir && this.energy > 0 && this.jumpIndex < 6) {
                 this.currentImage = this.jumpIndex;
                 this.playAnimation(this.IMAGES_JUMPING);
                 this.jumpIndex++;
-                console.log(this.jumpIndex);
-                
                 this.idleIndex = 0;
             } else if (this.y >= 180) {
                 this.jumpIndex = 0;
             }
-        }, 110);
+        }, 120);
     }
 }

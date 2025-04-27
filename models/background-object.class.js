@@ -10,7 +10,6 @@ class BackgroundObject extends MovableObject {
  * @description This constructor initializes the background object with an image
  * and sets its horizontal position. The object's width and height are predefined.
  */
-
     constructor(imagePath, x) {
         super().loadImage(imagePath);
         this.x = x;

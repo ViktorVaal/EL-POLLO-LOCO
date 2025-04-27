@@ -1,6 +1,5 @@
 let level1;
 
-
 /**
  * Initializes the level by creating a new Level instance with specified game elements.
  * This includes enemies such as SmallChicken, Chicken, and Endboss, cloud objects,
@@ -10,18 +9,18 @@ let level1;
 function initLevel() {
     level1 = new Level(
     [
-        // new SmallChicken(),
-        // new Chicken(),
-        // new SmallChicken(),
-        // new Chicken(),
-        // new SmallChicken(),
-        // new Chicken(),
-        // new SmallChicken(),
-        // new Chicken(),
-        // new SmallChicken(),
-        // new Chicken(),
-        // new SmallChicken(),
-        // new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
+        new SmallChicken(),
+        new Chicken(),
         new SmallChicken(),
         new Chicken(),
         new Endboss()

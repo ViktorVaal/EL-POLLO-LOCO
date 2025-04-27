@@ -14,7 +14,6 @@ class StatusBarBottle extends DrawableObjects {
     ];
     world;
 
-
     /**
      * The constructor of the class StatusBarBottle
      * 
@@ -31,13 +30,11 @@ class StatusBarBottle extends DrawableObjects {
  * This will update the displayed image of the status bar based on the percentage.
  * @param {number} percentage - The percentage of the StatusBarBottle.
  */
-
     setPercentage(percentage) {
         this.percentage = percentage; // => 0 .... 5
         let path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
-
 
 /**
  * Determines the index of the image to display for the status bar

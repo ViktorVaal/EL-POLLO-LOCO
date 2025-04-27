@@ -12,9 +12,7 @@ class StatusBarCoin extends DrawableObjects {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png',
 
     ];
-
     world;
-
 
     /**
      * Initializes a new instance of the StatusBarCoin class.
@@ -27,7 +25,6 @@ class StatusBarCoin extends DrawableObjects {
         this.setPercentage(0);
     }
 
-
     /**
      * Sets the percentage of the StatusBarCoin to a given value between 0 and 100.
      * This will update the displayed image of the status bar.
@@ -39,14 +36,12 @@ class StatusBarCoin extends DrawableObjects {
         this.img = this.imageCache[path];
     }
 
-
 /**
  * Determines the index of the image to display based on the current percentage.
  * The returned index corresponds to an image in the IMAGES array.
  * 
  * @returns {number} - The index of the image to display, ranging from 0 to 5.
  */
-
     resolveImageIndex() {
         if (this.percentage >= 100) {
             return 5;

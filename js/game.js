@@ -16,6 +16,19 @@ let youLoseAudio = new Audio('audio/you_lose.mp3');
 backgroundMusik = new Audio("audio/backgroundMusik.mp3");
 backgroundMusik.loop = true;
 
+window.addEventListener('keydown', (event) => {
+    let key = event.code.toLocaleUpperCase();
+    keyboard[key] = true;
+    if (event.repeat && key == "KEYD") {
+        keyboard[key] = false;
+    }
+});
+
+window.addEventListener('keyup', (event) => {
+    let key = event.code.toLocaleUpperCase();
+    keyboard[key] = false;
+});
+
 /**
  * Checks the dimensions of the window to determine if the device is mobile.
  * If the device is in portrait mode with a width of 768px or less, it hides
@@ -255,19 +268,6 @@ function closeImpressum(event) {
         impressumRef.style.display = "none";
     }
 }
-
-window.addEventListener('keydown', (event) => {
-    let key = event.code.toLocaleUpperCase();
-    keyboard[key] = true;
-    if (event.repeat && key == "KEYD") {
-        keyboard[key] = false;
-    }
-});
-
-window.addEventListener('keyup', (event) => {
-    let key = event.code.toLocaleUpperCase();
-    keyboard[key] = false;
-});
 
 /**
  * Activates touchstart event listeners for the mobile buttons.
