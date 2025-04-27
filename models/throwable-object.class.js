@@ -20,7 +20,7 @@ class ThrowableObject extends MovableObject {
         right: 20,
         bottom: 10
     }
-    speedX = 20;
+    speedX = 18;
     bottleShatterIndex = 0;
     direction = "right";
     bottleShatterAudio = new Audio('audio/bottle_shatter.mp3');
@@ -56,7 +56,7 @@ class ThrowableObject extends MovableObject {
      * @description This function applies gravity to the object and moves it horizontally in the given direction.
      */
     throw() {
-        this.speedY = 30;
+        this.speedY = 13;
         this.applyGravity();
         setInterval(() => {
             if (this.direction == "right") {

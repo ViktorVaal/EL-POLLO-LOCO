@@ -1,5 +1,4 @@
 class World {
-    intervalId = [];
     character = new Character();
     statusBar = new Statusbar();
     statusBarCoin = new StatusBarCoin();
@@ -110,7 +109,7 @@ class World {
 
     clearAllIntervals() {
         for (let i = 1; i < 9999; i++) window.clearInterval(i);
-      }
+    }
 
     /**
      * Starts the main game loop for the World instance.
@@ -120,7 +119,7 @@ class World {
      */
 
     run() {
-        this.intervalId = setInterval(() => {
+        setInterval(() => {
             this.checkCharacterIsAttacking();
             this.checkEndbossIsAttacking();
             this.checkCollisions();
@@ -166,28 +165,39 @@ class World {
     }
 
     /**
-     * Checks for collisions between the character and various objects in the level.
-     * 
-     * - If the character collides with an enemy and the enemy has energy remaining,
-     *   the character takes damage and the status bar is updated to reflect the character's
-     *   current energy.
-     * 
-     * - If the character collides with a salsa bottle and the character's bottle percentage
-     *   is less than 100, the bottle is collected, the corresponding audio is played,
-     *   and the status bar for bottles is updated. The bottle is then removed from the level.
-     * 
-     * - If the character collides with a coin, the coin is collected, the corresponding
-     *   audio is played, and the status bar for coins is updated. The coin is then removed
-     *   from the level.
+     * Checks and handles collisions between the character and various objects in the game.
+     * This method checks for collisions with enemies, salsa bottles, and coins, and updates
+     * the game state accordingly. If a collision with an enemy occurs, the character's energy
+     * is decreased. If a collision with a salsa bottle or coin occurs, the respective status
+     * bar is updated, and the bottle or coin is removed from the level.
      */
-
     checkCollisions() {
+        this.checkCollisionsWithEnemy();
+        this.checkCollisionsWithSalsaBottle();
+        this.checkCollisionsWithCoin();
+    }
+
+    /**
+     * Checks for collisions between the character and enemies.
+     * If a collision is detected and the enemy has energy, the character takes damage.
+     * The character's energy is then updated on the status bar.
+     */
+    checkCollisionsWithEnemy() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && enemy.energy > 0) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy)
             }
         });
+    }
+
+    /**
+     * Checks for collisions between the character and the salsa bottles in the level.
+     * If a collision is detected and the character's bottle count is less than 100, the
+     * character's bottle count is increased by 10, the collection audio is played, and
+     * the bottle is removed from the level.
+     */
+    checkCollisionsWithSalsaBottle() {
         for (let i = this.level.salsaBottle.length - 1; i >= 0; i--) {
             let salsaBottle = this.level.salsaBottle[i];
             if (this.character.isColliding(salsaBottle) && this.statusBarBottle.percentage < 100) {
@@ -196,6 +206,14 @@ class World {
                 this.level.salsaBottle.splice(i, 1);
             }
         };
+    }
+
+    /**
+     * Checks for collisions between the character and the coins in the level.
+     * If a collision is detected, the character's coin count is increased by 10, the
+     * collection audio is played, and the coin is removed from the level.
+     */
+    checkCollisionsWithCoin() {
         for (let i = this.level.coins.length - 1; i >= 0; i--) {
             let coin = this.level.coins[i];
             if (this.character.isColliding(coin)) {
@@ -208,17 +226,25 @@ class World {
 
     /**
      * Checks if the character is attacking any enemies in the level.
-     * If the character is attacking an enemy, the enemy's energy is set to 0.
-     * If the character is attacking the endboss, the endboss's energy is updated
-     * and the status bar for the endboss is updated to reflect the endboss's
-     * current energy.
-     * If the character is throwing a bottle and the bottle hits an enemy, the
-     * bottle is smashed and the enemy's energy is set to 0.
      */
     checkCharacterIsAttacking() {
+        this.checkCharacterIsAttackingChicken();
+        this.checkCharacterIsAttackingEndBoss();
+    }
+
+    /**
+     * Checks if the character is attacking any chickens in the level.
+     * If a chicken is attacked and its energy is greater than 0, the character's
+     * vertical speed is increased. The chicken's energy is set to 0, and it is
+     * removed from the level after a delay of 1.5 seconds.
+     */
+    checkCharacterIsAttackingChicken() {
         for (let i = this.level.enemies.length - 1; i >= 0; i--) {
             let chicken = this.level.enemies[i];
             if (this.character.isAttacking(chicken)) {
+                if (chicken.energy > 0) {
+                    this.character.speedY = 10;
+                }
                 chicken.energy = 0;
                 setTimeout(() => {
                     let index = this.level.enemies.indexOf(chicken);
@@ -228,6 +254,17 @@ class World {
                 }, 1500);
             }
         }
+    }
+
+    /**
+     * Checks if the character is attacking the endboss in the level.
+     * @description This function is called every game tick and checks if the
+     * character is attacking the endboss. If the character is attacking the
+     * endboss, the endboss's energy is reduced by 15 and the character's bottle
+     * count is increased by 10. The bottle is then removed from the level after
+     * a delay of 1.5 seconds.
+     */
+    checkCharacterIsAttackingEndBoss() {
         for (let i = this.throwableObjects.length - 1; i >= 0; i--) {
             let throwableObject = this.throwableObjects[i];
             let endboss = this.level.enemies[this.level.enemies.length - 1];
@@ -252,7 +289,6 @@ class World {
                 });
             }
         }
-
     }
 
     /**
@@ -285,18 +321,27 @@ class World {
     }
 
     /**
-     * Draws the game world and all objects within it.
-     * If the game is over, this method does nothing.
-     * Otherwise, it clears the canvas, moves the camera to the
-     * character's position, draws all objects in the level, and
-     * then moves the camera back to the top left of the canvas.
-     * Finally, it schedules itself to be called again after a
-     * short delay using requestAnimationFrame.
+     * Draws all the objects in the world on the canvas.
      */
     draw() {
         if (this.isDestroyed) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
+        this.addMoveableObjectsToMap();
+        this.ctx.translate(-this.camera_x, 0);
+        this.addFixedObjectsToMap();
+        this.ctx.translate(this.camera_x, 0);
+        this.ctx.translate(-this.camera_x, 0);
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
+    /**
+     * Adds all the moveable objects in the world to the map.
+     */
+    addMoveableObjectsToMap() {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
@@ -304,17 +349,16 @@ class World {
         this.addObjectsToMap(this.level.salsaBottle);
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
-        this.ctx.translate(-this.camera_x, 0);
+    }
+
+    /**
+     * Adds all the fixed objects in the world to the map.
+     */
+    addFixedObjectsToMap() {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
         this.addToMap(this.statusBarEndboss);
-        this.ctx.translate(this.camera_x, 0);
-        this.ctx.translate(-this.camera_x, 0);
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
     }
 
     /**

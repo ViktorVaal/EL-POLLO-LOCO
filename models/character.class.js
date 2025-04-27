@@ -29,7 +29,7 @@ class Character extends MovableObject {
     ];
     IMAGES_JUMPING = [
         // 'img/2_character_pepe/3_jump/J-31.png',
-        'img/2_character_pepe/3_jump/J-32.png',
+        // 'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png',
         'img/2_character_pepe/3_jump/J-35.png',
@@ -157,13 +157,15 @@ class Character extends MovableObject {
 
         setInterval(() => {
             this.isInTheAir = this.isAboveGround();
-        }, 10);
+        }, 1);
 
         setInterval(() => {
-            if (this.isInTheAir && this.energy > 0 && this.jumpIndex < 8) {
+            if (this.isInTheAir && this.energy > 0 && this.jumpIndex < 7) {
                 this.currentImage = this.jumpIndex;
                 this.playAnimation(this.IMAGES_JUMPING);
                 this.jumpIndex++;
+                console.log(this.jumpIndex);
+                
                 this.idleIndex = 0;
             } else if (this.y >= 180) {
                 this.jumpIndex = 0;
