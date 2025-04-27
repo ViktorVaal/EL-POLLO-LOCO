@@ -105,7 +105,7 @@ canvas {
 }
 
 .you-won {
-    height: 100vh;
+    height: calc(100vh - 80px);
     display: none;
     flex-direction: column;
     justify-content: space-around;
@@ -118,7 +118,7 @@ img {
 }
 
 .you-lose {
-    height: 100vh;
+    height: calc(100vh - 80px);
     display: none;
     flex-direction: column;
     justify-content: space-around;
@@ -230,5 +230,13 @@ img {
 
     h1 {
         display: none;
+    }
+
+    .you-lose {
+        height: 100vh;
+    }
+
+    .you-won {
+        height: 100vh;
     }
 }

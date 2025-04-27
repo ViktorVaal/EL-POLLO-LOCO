@@ -40,7 +40,7 @@ class SmallChicken extends MovableObject {
             if (this.energy == 0) {
                 this.loadImage( 'img/3_enemies_chicken/chicken_small/2_dead/dead.png');
                 this.speed = 0;
-                this.y = 380;
+                this.y = 377;
             }else {
                 this.playAnimation(this.IMAGES_WALKING);
             }

@@ -43,7 +43,7 @@ class Chicken extends MovableObject {
             if (this.energy == 0) {
                 this.loadImage( 'img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
                 this.speed = 0;
-                this.y = 360;
+                this.y = 358;
             }else {
                 this.playAnimation(this.IMAGES_WALKING);
             }

@@ -31,7 +31,7 @@ class MovableObject extends DrawableObjects {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             } else if (this instanceof Character) {
-                this.y = 188
+                this.y = 185;
             }
         }, 10);
     }
@@ -48,7 +48,7 @@ class MovableObject extends DrawableObjects {
             if (this instanceof ThrowableObject && this.y < 350) {
                 return true;
             } else {
-                return this.y < 188;
+                return this.y < 185;
             }
     }
 
