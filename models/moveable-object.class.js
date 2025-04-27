@@ -2,7 +2,7 @@ class MovableObject extends DrawableObjects {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5;
+    acceleration = 1;
     energy = 100;
     lastHit = 0;
     chickenDiesIndex = 0;
@@ -43,11 +43,11 @@ class MovableObject extends DrawableObjects {
      * @returns {boolean} - True if the object is above the ground, false otherwise.
      */
     isAboveGround() {
-        if (this instanceof ThrowableObject && this.y < 330) {
-            return true;
-        } else {
-            return this.y < 180;
-        }
+            if (this instanceof ThrowableObject && this.y < 330) {
+                return true;
+            } else {
+                return this.y < 188;
+            }
     }
 
     /**
@@ -209,7 +209,7 @@ class MovableObject extends DrawableObjects {
      * @description This function jumps the object by setting its vertical speed to 30 and playing a jump sound effect.
      */
     jump() {
-        this.speedY = 30;
+        this.speedY = 20;
         this.world.playAudio(this.jumpAudio);
     }
 }

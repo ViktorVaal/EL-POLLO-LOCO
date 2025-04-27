@@ -1,11 +1,13 @@
 class Character extends MovableObject {
     x = 30;
-    y = 85;
+    y = 188;
     img;
     height = 240;
     width = 100;
     speed = 8;
     idleIndex = 0;
+    jumpIndex = 0;
+    isInTheAir;
     offset = {
         top: 95,
         left: 20,
@@ -26,7 +28,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
     IMAGES_JUMPING = [
-        'img/2_character_pepe/3_jump/J-31.png',
+        // 'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png',
@@ -136,9 +138,6 @@ class Character extends MovableObject {
                     this.currentImage = this.imageIndex;
                     this.playAnimation(this.IMAGES_DEAD);
                     this.imageIndex++
-                } else if (this.isAboveGround() && this.energy > 0) {
-                    this.playAnimation(this.IMAGES_JUMPING);
-                    this.idleIndex = 0;
                 } else if (this.isHurt() && this.energy > 0) {
                     this.playAnimation(this.IMAGES_HURT);
                     this.world.playAudio(this.characterHurtAudio);
@@ -146,14 +145,30 @@ class Character extends MovableObject {
                 } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT || this.world.keyboard.ARROWLEFT && this.energy > 0) {
                     this.playAnimation(this.IMAGES_WALKING);
                     this.idleIndex = 0;
-                } else if (this.energy > 0 && this.idleIndex <= 40) {
+                } else if (this.energy > 0 && this.idleIndex <= 40 && !this.isAboveGround()) {
                     this.playAnimation(this.IMAGES_IDLE);
                     this.idleIndex++
-                } else if (this.energy > 0 && this.idleIndex > 40) {
+                } else if (this.energy > 0 && this.idleIndex > 40 && !this.isAboveGround()) {
                     this.playAnimation(this.IMAGES_LONG_IDLE);
                     this.world.playAudio(this.characterSnoreAudio);
                 }
             }
         }, 150);
+
+        setInterval(() => {
+            this.isInTheAir = this.isAboveGround();
+        }, 10);
+
+        setInterval(() => {
+            if (this.isInTheAir && this.energy > 0 && this.jumpIndex < 8) {
+                this.currentImage = this.jumpIndex;
+                this.playAnimation(this.IMAGES_JUMPING);
+                this.jumpIndex++;
+                this.idleIndex = 0;
+            } else if (this.y >= 180) {
+                this.jumpIndex = 0;
+                console.log(this.y);
+            }
+        }, 110);
     }
 }

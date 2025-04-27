@@ -141,6 +141,8 @@ class World {
      */
     checkThrowObject() {
         if (this.keyboard.KEYD && this.statusBarBottle.percentageBottle > 0 && this.character.energy > 0 && this.canThrow == true) {
+            this.character.characterSnoreAudio.pause();
+            this.character.idleIndex = 0;
             let bottle = new ThrowableObject(this.character.x + 10, this.character.y + 90);
             if (this.character.otherDirection == true) {
                 bottle.direction = "left";
@@ -218,7 +220,8 @@ class World {
             let chicken = this.level.enemies[i];
             if (this.character.isAttacking(chicken)) {
                 if (chicken.energy > 0) {
-                    this.character.speedY = 20;
+                    this.character.speedY = 10;
+                    this.character.jumpIndex = 0;
                 }
                 chicken.energy = 0;
                 setTimeout(() => {
@@ -297,30 +300,21 @@ class World {
     draw() {
         if (this.isDestroyed) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.salsaBottle);
+        this.addObjectsToMap(this.throwableObjects);
+        this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0);
-        // ------ Space for fixed objects ----------
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
         this.addToMap(this.statusBarEndboss);
         this.ctx.translate(this.camera_x, 0);
-
-        this.addObjectsToMap(this.level.clouds);
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.salsaBottle);
-        this.addObjectsToMap(this.throwableObjects);
-
-
         this.ctx.translate(-this.camera_x, 0);
-
-
-        // draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
