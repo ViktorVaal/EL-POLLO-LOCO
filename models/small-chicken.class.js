@@ -1,7 +1,7 @@
 class SmallChicken extends MovableObject {
     height = 50;
     width = 50;
-    y = 370;
+    y = 365;
     energy = 10;
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -41,7 +41,7 @@ class SmallChicken extends MovableObject {
             if (this.energy == 0) {
                 this.loadImage( 'img/3_enemies_chicken/chicken_small/2_dead/dead.png');
                 this.speed = 0;
-                this.y = 385;
+                this.y = 380;
             }else {
                 this.playAnimation(this.IMAGES_WALKING);
             }

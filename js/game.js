@@ -16,20 +16,23 @@ backgroundMusik = new Audio("audio/backgroundMusik.mp3");
 backgroundMusik.loop = true;
 
 function checkifMobile() {
+    let impressumRef = document.getElementById("impressumBackground");
     width = innerWidth;
     height = innerHeight;
     let rotateDeviceRef = document.getElementById("rotateDevice");
     if (height > width && width <= 768) {
+        impressumRef.style.display = "none";
         rotateDeviceRef.style.display = "flex";
     } else {
         rotateDeviceRef.style.display = "none";
-        showMobileButtons();
     }
+    showMobileButtons();
 }
 
 function showMobileButtons() {
     let mobileBtnsRef = document.getElementById("mobileBtns");
-    if (width <= 1300) {
+    gameHud = document.getElementById("gameHud");
+    if (width <= 1300 && gameHud.style.display == "block") {
         mobileBtnsRef.style.display = "flex";
         activateMobileButtons();
     } else {
@@ -46,6 +49,7 @@ function startGame() {
     initLevel();
     init();
     setVolume();
+    showMobileButtons();
 }
 
 function init() {
@@ -129,6 +133,18 @@ function setVolume() {
         backgroundMusik.play();
         world.muted = false;
         world.playMusik();
+    }
+}
+
+function openImpressum() {
+    let impressumRef = document.getElementById("impressumBackground");
+    impressumRef.style.display = "flex";
+}
+
+function closeImpressum(event) {
+    let impressumRef = document.getElementById("impressumBackground");
+    if (event.target == impressumRef) {
+        impressumRef.style.display = "none";
     }
 }
 

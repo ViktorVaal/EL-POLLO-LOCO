@@ -219,10 +219,6 @@ class World {
         for (let i = this.level.enemies.length - 1; i >= 0; i--) {
             let chicken = this.level.enemies[i];
             if (this.character.isAttacking(chicken)) {
-                if (chicken.energy > 0) {
-                    this.character.speedY = 10;
-                    this.character.jumpIndex = 0;
-                }
                 chicken.energy = 0;
                 setTimeout(() => {
                     let index = this.level.enemies.indexOf(chicken);
