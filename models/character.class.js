@@ -167,7 +167,6 @@ class Character extends MovableObject {
                 this.idleIndex = 0;
             } else if (this.y >= 180) {
                 this.jumpIndex = 0;
-                console.log(this.y);
             }
         }, 110);
     }

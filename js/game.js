@@ -45,16 +45,17 @@ function startGame() {
     menu = document.getElementById("menu")
     canvas = document.getElementById("canvas");
     gameHud = document.getElementById("gameHud");
+    muted = localStorage.getItem("muted");
     backgroundMusik.play();
     initLevel();
     init();
+    setVolumeFromLocalstorage();
     setVolume();
     showMobileButtons();
 }
 
 function init() {
     world = new World(canvas, keyboard);
-    console.log('My Character is', world.character);
     gameHud.style.display = "block"
     menu.style.display = "none"
     checkGameOverLoop();
@@ -109,6 +110,18 @@ function playAudio(victory) {
     }
 }
 
+function setVolumeFromLocalstorage() {
+    volumeUp = document.getElementById("volumeUp");
+    volumeOff = document.getElementById("volumeOff");
+    if (muted == "true") {
+        volumeOff.classList.remove("d-none");
+        volumeUp.classList.add("d-none");
+    } else {
+        volumeOff.classList.add("d-none");
+        volumeUp.classList.remove("d-none");
+    }
+}
+
 function toggleVolumeImage() {
     volumeUp = document.getElementById("volumeUp");
     volumeOff = document.getElementById("volumeOff");
@@ -128,10 +141,12 @@ function setVolume() {
     volumeOff = document.getElementById("volumeOff");
     if (!volumeOff.classList.contains("d-none")) {
         world.muted = true;
+        localStorage.setItem("muted", "true");
         backgroundMusik.pause();
     } else {
         backgroundMusik.play();
         world.muted = false;
+        localStorage.setItem("muted", "false");
         world.playMusik();
     }
 }

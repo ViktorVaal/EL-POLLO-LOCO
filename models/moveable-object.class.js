@@ -2,7 +2,7 @@ class MovableObject extends DrawableObjects {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 1;
+    acceleration = 2.5;
     energy = 100;
     lastHit = 0;
     chickenDiesIndex = 0;
@@ -209,7 +209,7 @@ class MovableObject extends DrawableObjects {
      * @description This function jumps the object by setting its vertical speed to 30 and playing a jump sound effect.
      */
     jump() {
-        this.speedY = 20;
+        this.speedY = 30;
         this.world.playAudio(this.jumpAudio);
     }
 }
