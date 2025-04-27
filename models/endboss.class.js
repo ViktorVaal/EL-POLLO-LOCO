@@ -11,6 +11,7 @@ class Endboss extends MovableObject {
         right: 50,
         bottom: 20
     }
+    i = 0;
     angryEndbossAudio = new Audio('audio/endboss_angry.mp3');
     endbossDiesAudio = new Audio('audio/endboss_dies.mp3');
     endbossAttackAudio = new Audio('audio/endboss_attack.mp3')
@@ -69,56 +70,85 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
-    /**
-     * Animates the object.
-     * @description This function animates the object every 100ms and every 200ms. If the object is hurt, it plays the hurt animation.
-     *              If the object is dead, it plays the dead animation and plays the die sound effect.
-     *              If the object is attacking, it plays the attack animation and plays the attack sound effect.
-     *              If the character is close to the object and the object is not dead, it plays the alert animation.
-     *              If the character is farther away than 3700px and the object is not dead, it plays the walk animation.
-     *              The animation is started when the object is created.
-     */
+    
+/**
+ * Animates the Endboss character based on the character's position and state.
+ * @description This function sets up an interval to make the Endboss move left or right 
+ *              depending on the character's position once first contact is made. 
+ *              It also starts the animation interval for playing the appropriate animations 
+ *              for hurt, dead, attack, alert, or walking states. The movement logic runs 
+ *              at approximately 60 frames per second.
+ */
     animate() {
-        let i = 0;
         setInterval(() => {
-            if (this.hadFirstContact && i > 10 && this.world.character.x + 50 < this.x + this.width / 2) {
+            if (this.hadFirstContact && this.i > 10 && this.world.character.x + 50 < this.x + this.width / 2) {
                 this.moveLeft();
                 this.otherDirection = false;
-            } else if (this.hadFirstContact && i > 10 && this.world.character.x - 50 > this.x + this.width / 2) {
+            } else if (this.hadFirstContact && this.i > 10 && this.world.character.x - 50 > this.x + this.width / 2) {
                 this.moveRight();
                 this.otherDirection = true;
             }
         }, 1000 / 60);
+        this.startAnimationInterval();
+    }
+
+/**
+ * Starts an interval to animate the Endboss based on its state and interaction with the character.
+ * @description This function sets up an interval that checks the Endboss's state every 200ms and plays the 
+ *              corresponding animation and audio. It plays the hurt animation and sound when the Endboss is hurt,
+ *              the dead animation when the Endboss dies, the attack animation and sound when the Endboss is attacking,
+ *              the alert animation and sound when the character is near, and the walking animation when the Endboss
+ *              has energy and first contact is made. It also checks for the first contact between the character and the Endboss.
+ */
+    startAnimationInterval() {
         setInterval(() => {
             if (this.isHurt()) {
-                // this.world.level.enemies.some(enemy => this.isColliding(enemy))
                 this.playAnimation(this.IMAGES_HURT);
                 this.world.playAudio(this.chickenHurtAudio);
             } else if (this.isDead() && this.imageIndex <= 2) {
-                this.world.playAudio(this.endbossDiesAudio);
-                this.currentImage = this.imageIndex;
-                this.playAnimation(this.IMAGES_DEAD);
-                this.imageIndex++
-                this.y = 50;
-                this.speed = 0;
+              this.playWinnerAnimationAndEndGame();
             } else if (this.endbossAttacks() && this.energy > 0) {
                 this.playAnimation(this.IMAGES_ATTACK);
                 this.world.playAudio(this.endbossAttackAudio);
-            } else if (this.world?.character.x > 3700 && i < 10) {
+            } else if (this.world?.character.x > 3700 && this.i < 10) {
                 this.world.playAudio(this.angryEndbossAudio);
                 this.playAnimation(this.IMAGES_ALERT);
             } else if (this.energy > 0 && this.hadFirstContact){
                 this.playAnimation(this.IMAGES_WALK)
             }
-
-            i++
-
-            if (this.world?.character.x > 3700 && !this.hadFirstContact) {
-                i = 0;
-                this.hadFirstContact = true;
-                this.world.disableThrow();
-            }
+            this.i++
+            this.checkFirstContact();
         }, 200);
     }
 
+/**
+ * Plays the winner animation and ends the game.
+ * @description This function plays the endboss's death audio and the dead animation.
+ *              It increments the image index after the animation is finished, sets the
+ *              vertical position of the endboss to 50, and stops its movement by setting
+ *              the speed to 0.
+ */
+    playWinnerAnimationAndEndGame() {
+        this.world.playAudio(this.endbossDiesAudio);
+        this.currentImage = this.imageIndex;
+        this.playAnimation(this.IMAGES_DEAD);
+        this.imageIndex++
+        this.y = 50;
+        this.speed = 0;
+    }
+
+/**
+ * Checks for the first contact between the character and the Endboss.
+ * @description This function increments a counter variable and checks if the character's
+ *              x position is greater than 3700 and if the Endboss has not had first contact yet.
+ *              When the conditions are met, it resets the counter, marks that the first contact
+ *              has been made, and disables the character's ability to throw objects.
+ */
+    checkFirstContact() {
+        if (this.world?.character.x > 3700 && !this.hadFirstContact) {
+            this.i = 0;
+            this.hadFirstContact = true;
+            this.world.disableThrow();
+        }
+    }
 }

@@ -211,7 +211,6 @@ function setVolumeFromLocalstorage() {
  * If the "volume off" icon is currently hidden, it displays the "volume off" icon and hides the "volume up" icon.
  * Calls the `setVolume` function to update the volume state based on the current icon displayed.
  */
-
 function toggleVolumeImage() {
     volumeUp = document.getElementById("volumeUp");
     volumeOff = document.getElementById("volumeOff");
@@ -325,4 +324,3 @@ function activateMobileTouchendButtons() {
     });
 
 };
-

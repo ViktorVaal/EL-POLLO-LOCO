@@ -262,12 +262,7 @@ class World {
     }
 
     /**
-     * Checks if the character is attacking the endboss in the level.
-     * @description This function is called every game tick and checks if the
-     * character is attacking the endboss. If the character is attacking the
-     * endboss, the endboss's energy is reduced by 15 and the character's bottle
-     * count is increased by 10. The bottle is then removed from the level after
-     * a delay of 1.5 seconds.
+     * Checks if the character is attacking the endboss or salse bottle is hitting the ground.
      */
     checkCharacterIsAttackingEndBoss() {
         for (let i = this.throwableObjects.length - 1; i >= 0; i--) {
@@ -389,11 +384,7 @@ class World {
         if (mo.otherDirection) {
             this.flipImage(mo)
         }
-
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx)
-        // mo.drawOffsetFrame(this.ctx)
-
         if (mo.otherDirection) {
             this.flipImageBack(mo)
         }
@@ -405,7 +396,6 @@ class World {
      * 
      * @param {MovableObject|DrawableObject} mo - The object whose image is to be flipped.
      */
-
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);

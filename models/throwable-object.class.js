@@ -45,7 +45,6 @@ class ThrowableObject extends MovableObject {
         this.throw(this.direction);
         this.animate();
         this.playAudio();
-       
     }
 
 
@@ -104,7 +103,6 @@ class ThrowableObject extends MovableObject {
             }
       }, 100);  
     }
-
 }
 
 

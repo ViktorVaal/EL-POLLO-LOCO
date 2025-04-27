@@ -28,15 +28,12 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
     IMAGES_JUMPING = [
-        // 'img/2_character_pepe/3_jump/J-31.png',
-        // 'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png',
         'img/2_character_pepe/3_jump/J-35.png',
         'img/2_character_pepe/3_jump/J-36.png',
         'img/2_character_pepe/3_jump/J-37.png',
         'img/2_character_pepe/3_jump/J-38.png',
-        // 'img/2_character_pepe/3_jump/J-39.png'
     ];
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
@@ -78,12 +75,12 @@ class Character extends MovableObject {
     ];
     world;
 
-/**
- * Constructor for the Character class.
- * Initializes the character by loading images for various animations
- * including walking, jumping, hurt, idle, long idle, and dead states.
- * Applies gravity and starts the animation cycle.
- */
+    /**
+     * Constructor for the Character class.
+     * Initializes the character by loading images for various animations
+     * including walking, jumping, hurt, idle, long idle, and dead states.
+     * Applies gravity and starts the animation cycle.
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -96,18 +93,15 @@ class Character extends MovableObject {
         this.animate();
     }
 
+
     /**
-     * Starts the animation cycle for the character.
-     * The animation is driven by events in the game world, such as the
-     * character moving left or right, jumping, or taking damage.
-     * The animation cycle responds to these events by playing the
-     * appropriate animation and updating the character's appearance.
-     * If the character is idle, the animation cycle will play the idle
-     * animation and eventually transition to the long idle animation.
-     * If the character is hurt, the animation cycle will play the hurt
-     * animation and play the hurt sound effect.
-     * If the character is dead, the animation cycle will play the dead
-     * animation and play the die sound effect.
+     * Animates the character based on keyboard input and updates the camera position.
+     * @description This function sets up an interval to continuously check keyboard inputs and 
+     *              performs actions such as moving right, moving left, and jumping if the corresponding 
+     *              keys are pressed. It also pauses the snore audio when actions are taken and updates 
+     *              the camera position relative to the character's x position. The function ensures 
+     *              these actions are only executed if the character has energy and is within the 
+     *              boundaries of the level.
      */
     animate() {
         setInterval(() => {
@@ -115,32 +109,38 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.characterSnoreAudio.pause();
             }
-
             if (this.world.keyboard.ARROWLEFT && this.x > 0 && this.energy > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.characterSnoreAudio.pause();
             }
-
             if (this.world.keyboard.SPACE && !this.isAboveGround() && this.energy > 0) {
                 this.jump();
                 this.characterSnoreAudio.pause();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
+        this.startAnimationInterval();
+    }
 
+    /**
+     * Starts an interval to continuously check the character's state and play the appropriate animation.
+     * @description This function sets up an interval to continuously check the character's state and play the appropriate animation.
+     *              If the character is dead and the image index is less then or equal to 6, it plays the losing animation and ends the game.
+     *              If the character is hurt and has energy, it plays the character is hurt animation.
+     *              If the character is not above ground and has energy, it plays the walking animation and resets the idle index to 0.
+     *              If the character is not above ground and has energy and the idle index is less than or equal to 40, it plays the idle animation and increments the idle index.
+     *              If the character is not above ground and has energy and the idle index is greater then 40, it plays the long idle animation and plays the snore audio.
+     *              This function also calls the playJumpAnimation function to play the jumping animation.
+     *              The interval is set to 150ms.
+     */
+    startAnimationInterval() {
         setInterval(() => {
             if (!this.world.isDestroyed) {
                 if (this.isDead() && this.imageIndex <= 6) {
-                    this.characterSnoreAudio.pause();
-                    this.world.playAudio(this.dieAudio);
-                    this.currentImage = this.imageIndex;
-                    this.playAnimation(this.IMAGES_DEAD);
-                    this.imageIndex++
+                    this.playLosingAnimationAndEndGame();
                 } else if (this.isHurt() && this.energy > 0) {
-                    this.playAnimation(this.IMAGES_HURT);
-                    this.world.playAudio(this.characterHurtAudio);
-                    this.characterSnoreAudio.pause();
+                    this.playCharacterIsHurt();
                 } else if (this.energy > 0 && this.world.keyboard.ARROWRIGHT && !this.isAboveGround() || this.world.keyboard.ARROWLEFT && this.energy > 0 && !this.isAboveGround()) {
                     this.playAnimation(this.IMAGES_WALKING);
                     this.idleIndex = 0;
@@ -153,11 +153,44 @@ class Character extends MovableObject {
                 }
             }
         }, 150);
+        this.playJumpAnimation();
+    }
 
+    /**
+     * Plays the losing animation and ends the game.
+     * @description This function pauses the snore audio, plays the die audio, and plays the dead animation.
+     *              It increments the image index after the animation is finished and ends the game.
+     */
+    playLosingAnimationAndEndGame() {
+        this.characterSnoreAudio.pause();
+        this.world.playAudio(this.dieAudio);
+        this.currentImage = this.imageIndex;
+        this.playAnimation(this.IMAGES_DEAD);
+        this.imageIndex++
+    }
+
+    /**
+     * Plays the hurt animation and plays the hurt sound effect.
+     * @description This function plays the hurt animation and plays the hurt sound effect.
+     *              It also pauses the snore audio.
+     */
+    playCharacterIsHurt() {
+        this.playAnimation(this.IMAGES_HURT);
+        this.world.playAudio(this.characterHurtAudio);
+        this.characterSnoreAudio.pause();
+    }
+
+    /**
+     * Plays the jump animation for the character.
+     * @description This function sets up two intervals. The first interval continuously checks if the character is above the ground,
+     * updating the isInTheAir property accordingly. The second interval plays the jumping animation if the character is in the air
+     * and has enough energy, cycling through the images in the IMAGES_JUMPING array. The jump animation is reset when the character
+     * reaches the ground. The intervals ensure the animation transitions smoothly and reset the idle index when jumping.
+     */
+    playJumpAnimation() {
         setInterval(() => {
             this.isInTheAir = this.isAboveGround();
         }, 1);
-
         setInterval(() => {
             if (this.isInTheAir && this.energy > 0 && this.jumpIndex < 6) {
                 this.currentImage = this.jumpIndex;
@@ -169,4 +202,5 @@ class Character extends MovableObject {
             }
         }, 120);
     }
+
 }
