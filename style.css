@@ -108,17 +108,20 @@ canvas {
     height: 100vh;
     display: none;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
 }
 
 img {
     width: 80%;
-    height: 80%;
+    height: 60%;
 }
 
 .you-lose {
+    height: 100vh;
     display: none;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -131,6 +134,7 @@ img {
 }
 
 .game-hud {
+    overflow: hidden;
     display: none;
     width: fit-content;
     height: 490px;
@@ -197,7 +201,7 @@ img {
     }
 }
 
-@media (max-height: 480px) {
+@media (max-height: 490px) {
     canvas {
         height: 100vh;
         width: 100%;
@@ -206,10 +210,6 @@ img {
     .game-hud {
         width: 100%;
         height: 100vh;
-    }
-
-    h1 {
-        display: none;
     }
 
     .menu {
@@ -226,6 +226,9 @@ img {
     .impressum-content {
         font-size: 20px;
         word-break: break-all;
+    }
 
+    h1 {
+        display: none;
     }
 }
